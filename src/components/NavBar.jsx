@@ -3,10 +3,14 @@ import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import useTheme from '../contexts/theme';
 import { useState } from 'react';
 import AuthModal from './AuthModal';
+import { UserNavbarProfile } from './UserNavbarProfile';
+import useAuthContext from '../contexts/auth';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
   const [isAuthOngoing, setIsAuthOngoing] = useState(false);
+  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  console.log(authuserInfo)
 
   const onChangeToogle = (e) => {
     const lightModeStatus = e.currentTarget.checked;
@@ -18,7 +22,10 @@ const NavBar = () => {
   return (
     <div>
       {isAuthOngoing ? (
-        <AuthModal open={isAuthOngoing} onClose={()=> setIsAuthOngoing(false)}/>
+        <AuthModal
+          open={isAuthOngoing}
+          onClose={() => setIsAuthOngoing(false)}
+        />
       ) : (
         <nav className="bg-white border-2 border-gray-300 dark:bg-nav-back dark:border-none">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -44,10 +51,7 @@ const NavBar = () => {
                 </span>
               </label>
 
-              <button
-                type="button"
-                className="btn-primary"
-              >
+              <button type="button" className="btn-primary">
                 Write Blog
               </button>
               <button
@@ -64,7 +68,7 @@ const NavBar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 17 14"
-                >
+                ><UserNavbarProfile username="Sabbir" userId="wdq2r3r2scsdasdfscd3e"/>
                   <path
                     stroke="currentColor"
                     strokeLinecap="round"
@@ -74,13 +78,21 @@ const NavBar = () => {
                   />
                 </svg>
               </button>
-              <button
-                onClick={()=> setIsAuthOngoing(true)}
-                className="text-lg mt-1 ml-5  text-dark-teal dark:text-mint hover:underline"
-              >
-                Login
-              </button>
+              {authuserInfo.userId ? (
+                <UserNavbarProfile
+                  username={authuserInfo.name}
+                  userId={authuserInfo.userId}
+                />
+              ) : (
+                <button
+                  onClick={() => setIsAuthOngoing(true)}
+                  className="text-lg mt-1 ml-5  text-dark-teal dark:text-mint hover:underline"
+                >
+                  Login
+                </button>
+              )}
             </div>
+
             <div
               className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
               id="navbar-cta"
