@@ -9,6 +9,7 @@ import { useState } from 'react';
 import LoadingPrimaryButton from './LoadingPrimaryButton';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import useAuthContext from '../contexts/auth';
 
 const schema = Joi.object({
   email: Joi.string()
@@ -19,6 +20,7 @@ const schema = Joi.object({
 });
 
 const LoginModal = ({ open, onClose, goToSignUp }) => {
+  const { authuserInfo, setAuthContextInfo } = useAuthContext();
   const notify = (text) => {
     toast.success(text, {
       position: 'top-right',
@@ -74,7 +76,16 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                   } else {
                     setLoginOngoing(false);
                     setErrorFromApi(false);
-                    notify(response.message)
+                    notify(response.message);
+                    
+                    setAuthContextInfo(
+                      response.userObj.userId,
+                      response.userObj.name,
+                      response.userObj.role,
+                      response.accessToken,
+                      response.refreshToken
+                    );
+                    
                     onClose();
                   }
                 })}
@@ -123,8 +134,6 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                     errorFromApi ? 'visible p-2.5' : 'invisible'
                   }  bg-red-200 border border-red-600 dark:border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-red-600 dark:bg-opacity-30 dark:placeholder-gray-400 dark:text-white`}
                 >
-                  {/* {errors.password && errors.password.message} */}
-                  {console.log(errorFromApi)}
                   {!!errorFromApi && (
                     <h3 className="text-md font-bold">
                       {errorFromApi.message}
@@ -158,7 +167,6 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };
