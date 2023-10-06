@@ -5,6 +5,7 @@ import { ThemeProvider } from './contexts/theme';
 import SignUpModal from './components/SignUpModal';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from './contexts/auth';
+import BlogsSection from './Sections/BlogsSection';
 
 const App = () => {
   const [authuserInfo, setAuthuserInfo] = useState({
@@ -23,7 +24,13 @@ const App = () => {
     setCurrentTheme('light');
   };
 
-  const setAuthContextInfo = (userId, name, role, accessToken, refreshToken) => {
+  const setAuthContextInfo = (
+    userId,
+    name,
+    role,
+    accessToken,
+    refreshToken
+  ) => {
     setAuthuserInfo({
       userId,
       name,
@@ -54,7 +61,9 @@ const App = () => {
         />
         <div className="min-h-screen bg-white dark:bg-navy">
           <NavBar />
+
           <SignUpModal />
+          <BlogsSection />
         </div>
       </ThemeProvider>
     </AuthContextProvider>

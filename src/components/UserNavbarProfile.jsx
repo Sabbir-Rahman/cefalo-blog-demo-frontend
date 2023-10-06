@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react';
 export const UserNavbarProfile = ({userId, username}) => {
   const [isOpen, setIsOpen] = useState(false);
