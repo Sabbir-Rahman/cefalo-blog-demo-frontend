@@ -6,6 +6,7 @@ import SignUpModal from './components/SignUpModal';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from './contexts/auth';
 import BlogsSection from './Sections/BlogsSection';
+import WriteBlogCard from './components/WriteBlogCard';
 
 const App = () => {
   const [authuserInfo, setAuthuserInfo] = useState({
