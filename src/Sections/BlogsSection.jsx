@@ -10,7 +10,6 @@ const BlogsSection = () => {
 
   useEffect(() => {
     async function fetchBlogs() {
-      console.log('hit');
       const response = await getBlogs();
       if (response.status == 'SUCCESS') {
         setBlogs(response.blogs);

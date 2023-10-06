@@ -6,7 +6,6 @@ import SignUpModal from './components/SignUpModal';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from './contexts/auth';
 import BlogsSection from './Sections/BlogsSection';
-import WriteBlogCard from './components/WriteBlogCard';
 
 const App = () => {
   const [authuserInfo, setAuthuserInfo] = useState({
@@ -16,6 +15,19 @@ const App = () => {
     refreshToken: null,
     role: [],
   });
+
+  // setting up the auth context from local storage
+  useEffect(()=> {
+    const user = JSON.parse(localStorage.getItem("user"))
+    console.log(user)
+    if (authuserInfo.userId == null && user){
+      setAuthContextInfo(user.userId, user.name, user.accessToken, user.refreshToken, user.role)
+    }
+  },[])
+
+  useEffect(() => {
+    localStorage.setItem("user", JSON.stringify(authuserInfo))
+  }, [authuserInfo])
 
   const [currentTheme, setCurrentTheme] = useState('dark');
   const applyDarkTheme = () => {

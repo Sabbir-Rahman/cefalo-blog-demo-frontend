@@ -21,4 +21,24 @@ const login = async (inputData) => {
   }
 };
 
-export { login };
+const createAuthors = async (inputData) => {
+  try {
+    const response = await Axios.post('/api/v1/authors', inputData);
+    return {
+      status: 'SUCCESS',
+      message: response.data.message,
+      developerMessage: response.data.developerMessage,
+      accessToken: response.data.data.accessToken,
+      refreshToken: response.data.data.refreshToken,
+      authorObj: response.data.data.authorObj
+    };
+  } catch (err) {
+    return {
+      status: 'ERROR',
+      message: err.response.data.message,
+      developerMessage: err.response.data.developerMessage,
+    };
+  }
+};
+
+export { login, createAuthors };

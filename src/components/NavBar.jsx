@@ -11,7 +11,6 @@ const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
   const [isAuthOngoing, setIsAuthOngoing] = useState(false);
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
-  console.log(authuserInfo)
 
   const onChangeToogle = (e) => {
     const lightModeStatus = e.currentTarget.checked;
