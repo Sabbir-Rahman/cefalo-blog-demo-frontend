@@ -20,9 +20,24 @@ const BlogsSection = () => {
     fetchBlogs();
   }, []);
 
+  function onCreateBlog(title, body) {
+    console.log(title, body);
+    const newBlog = {
+      title,
+      body,
+      time: Date(),
+    };
+    setBlogs([newBlog, ...blogs]);
+  }
+
   return (
     <>
-      {authuserInfo.accessToken && <WriteBlogCard accessToken={authuserInfo.accessToken}/>}
+      {authuserInfo.accessToken && (
+        <WriteBlogCard
+          onCreate={onCreateBlog}
+          accessToken={authuserInfo.accessToken}
+        />
+      )}
 
       {blogs.map((blog) => (
         <Card
