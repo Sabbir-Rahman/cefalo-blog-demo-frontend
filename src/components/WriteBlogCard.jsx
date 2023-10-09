@@ -60,6 +60,7 @@ const WriteBlogCard = ({
     setIsBlogCreateOngoing(true);
     async function sendRequest() {
       const response = await createBlog({ title, body }, accessToken);
+      console.log(response)
       setIsBlogCreateOngoing(false);
       onCreate(title,body)
       setTitle('');

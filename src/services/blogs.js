@@ -1,8 +1,8 @@
 import Axios from './Api/axios';
 
-const getBlogs = async () => {
+const getBlogs = async (page=1, limit=7) => {
   try {
-    const response = await Axios.get('/api/v1/blogs');
+    const response = await Axios.get(`/api/v1/blogs?page=${page}&limit=${limit}`);
     return { status: 'SUCCESS', blogs: response.data.data };
   } catch (err) {
     return {
@@ -39,6 +39,7 @@ const createBlog = async (inputData, accesstoken) => {
     const response = await Axios.post('/api/v1/blogs', inputData, config);
     return { status: 'SUCCESS', message: response.data.message };
   } catch (err) {
+    console.log(err)
     return {
       status: 'ERROR',
       message: err.response.data.message,

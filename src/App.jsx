@@ -58,9 +58,10 @@ const App = () => {
     setAuthuserInfo({
       userId,
       name,
-      role,
+      
       accessToken,
       refreshToken,
+      role,
     });
   };
   useEffect(() => {
