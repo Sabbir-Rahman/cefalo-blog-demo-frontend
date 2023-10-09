@@ -26,6 +26,7 @@ const BlogsSection = () => {
 
       {blogs.map((blog) => (
         <Card
+          blogId={blog.blogId}
           key={blog.time}
           title={blog.title}
           author={blog.authorName}

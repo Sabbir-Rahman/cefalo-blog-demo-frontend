@@ -6,6 +6,7 @@ import SignUpModal from './components/SignUpModal';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from './contexts/auth';
 import BlogsSection from './Sections/BlogsSection';
+import { Outlet } from 'react-router-dom';
 
 const App = () => {
   const [authuserInfo, setAuthuserInfo] = useState({
@@ -84,9 +85,9 @@ const App = () => {
         />
         <div className="min-h-screen bg-white dark:bg-navy">
           <NavBar />
-
-          <SignUpModal />
-          <BlogsSection />
+          <Outlet/>
+          {/* <SignUpModal />
+          <BlogsSection /> */}
         </div>
       </ThemeProvider>
     </AuthContextProvider>

@@ -6,6 +6,7 @@ import { useState } from 'react';
 import AuthModal from './AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
 import useAuthContext from '../contexts/auth';
+import { NavLink, Link } from 'react-router-dom';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
@@ -29,12 +30,12 @@ const NavBar = () => {
       ) : (
         <nav className="bg-white border-2 border-gray-300 dark:bg-nav-back dark:border-none">
           <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-            <a href="/" className="flex items-center">
+            <Link to="/" className="flex items-center">
               <FontAwesomeIcon icon={faBlog} style={{ color: '#35a29f' }} />
               <span className="self-center text-2xl font-semibold whitespace-nowrap text-teal dark:text-mint">
                 &nbsp;Bloggie
               </span>
-            </a>
+            </Link>
 
             <div className="flex md:order-2">
               <label className="relative inline-flex items-center cursor-pointer">
@@ -99,29 +100,31 @@ const NavBar = () => {
             >
               <ul className="flex flex-col font-medium p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-nav-back md:dark:bg-nav-back dark:border-navy">
                 <li>
-                  <a
-                    href="#"
-                    className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0 md:dark:text-mint"
+                  <NavLink
+                    to="/"
+                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
                     aria-current="page"
                   >
                     Dashboard
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-teal md:p-0 md:dark:hover:text-teal dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                <NavLink
+                    to="/about"
+                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
+                    aria-current="page"
                   >
                     About
-                  </a>
+                  </NavLink>
                 </li>
                 <li>
-                  <a
-                    href="#"
-                    className="block cursor-pointer py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-teal md:p-0 md:dark:hover:text-teal dark:text-white dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+                <NavLink
+                    to="/contact"
+                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
+                    aria-current="page"
                   >
                     Contact
-                  </a>
+                  </NavLink>
                 </li>
               </ul>
             </div>
