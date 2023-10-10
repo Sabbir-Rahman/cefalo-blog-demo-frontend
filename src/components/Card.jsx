@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import useAuthContext from '../contexts/auth';
 import EditBlogComponent from './EditBlogComponent';
 
-const Card = ({ blogId, title, authorName, authorId, time, body, img, onEdit }) => {
+const Card = ({ blogId, title, authorName, authorId, time, body, img, onEdit, onDelete }) => {
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
 
   return (
@@ -14,7 +14,7 @@ const Card = ({ blogId, title, authorName, authorId, time, body, img, onEdit }) 
           alt=""
         />
         <div className="flex flex-col p-4 leading-normal w-full">
-          {authuserInfo.userId == authorId && <EditBlogComponent onEdit={onEdit} />}
+          {authuserInfo.userId == authorId && <EditBlogComponent onEdit={onEdit} onDelete={onDelete}/>}
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
             {title}
           </h5>

@@ -6,6 +6,7 @@ import useAuthContext from '../contexts/auth';
 import LoadingSpinner from '../components/LoadingSpinner';
 import WriteBlogModal from '../components/modal/WriteBlogModal';
 import EditBlogModal from '../components/modal/EditBlogModal';
+import DeleteBlogModal from '../components/modal/DeleteBlogModal';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -13,6 +14,7 @@ const BlogsSection = () => {
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
+  const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
 
   const infiniteScroll = async () => {
@@ -64,17 +66,29 @@ const BlogsSection = () => {
 
   return (
     <>
-      {editBlogOngoing ? (
-        <EditBlogModal
-          open={editBlogOngoing}
-          onClose={() => setEditBlogOngoing(false)}
-          modalTitle="Edit Blog"
-          blogId={currentBlog.blogId}
-          title={currentBlog.title}
-          body={currentBlog.body}
-          btnTitle="Edit Blog"
-          accessToken={authuserInfo.accessToken}
-        />
+      {editBlogOngoing || deleteBlogOngoing ? (
+        <div>
+          {editBlogOngoing ? (
+            <EditBlogModal
+              open={editBlogOngoing}
+              onClose={() => setEditBlogOngoing(false)}
+              modalTitle="Edit Blog"
+              blogId={currentBlog.blogId}
+              title={currentBlog.title}
+              body={currentBlog.body}
+              btnTitle="Edit Blog"
+              accessToken={authuserInfo.accessToken}
+            />
+          ) : (
+            <DeleteBlogModal
+              open={deleteBlogOngoing}
+              onClose={() => setDeleteBlogOngoing(false)}
+              modalTitle="Are you sure ? you want to delete the blog"
+              blogId={currentBlog.blogId}
+              accessToken={authuserInfo.accessToken}
+            />
+          )}
+        </div>
       ) : (
         <div>
           {authuserInfo.accessToken && (
@@ -105,6 +119,10 @@ const BlogsSection = () => {
                   body={blog.body}
                   onEdit={() => {
                     setEditBlogOngoing(true);
+                    setCurrentBlog(blog);
+                  }}
+                  onDelete={() => {
+                    setDeleteBlogOngoing(true);
                     setCurrentBlog(blog);
                   }}
                   img={`https://picsum.photos/id/${Math.floor(
