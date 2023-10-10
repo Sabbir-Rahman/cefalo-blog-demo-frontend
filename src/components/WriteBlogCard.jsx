@@ -13,40 +13,17 @@ const WriteBlogCard = ({
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
 
   const notify = (text, type) => {
-    if (type == 'SUCCESS') {
-      toast.success(text, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } else if (type == 'ERROR') {
-      toast.error(text, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    } else {
-      toast.info(text, {
-        position: 'top-right',
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: 'dark',
-      });
-    }
+    toast[type](text, {
+      position: 'top-right',
+      autoClose: 5000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: 'dark',
+    });
+
   };
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -60,9 +37,9 @@ const WriteBlogCard = ({
     setIsBlogCreateOngoing(true);
     async function sendRequest() {
       const response = await createBlog({ title, body }, accessToken);
-      console.log(response)
+      console.log(response);
       setIsBlogCreateOngoing(false);
-      onCreate(title,body)
+      onCreate(title, body);
       setTitle('');
       setBody('');
       notify(response.message, response.status);
@@ -72,7 +49,7 @@ const WriteBlogCard = ({
   };
 
   return (
-    <div className="flex justify-center mt-10">
+    <div className="flex justify-center mt-6">
       <div className="w-full flex flex-col items-center bg-gray-300 bg-opacity-50 border border-gray-200 rounded-lg shadow md:flex-row sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-50 dark:hover:bg-gray-700">
         <div className="flex flex-col p-4 leading-normal w-full">
           <form className="space-y-6" action="#">

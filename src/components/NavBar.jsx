@@ -7,10 +7,12 @@ import AuthModal from './AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
 import useAuthContext from '../contexts/auth';
 import { NavLink, Link } from 'react-router-dom';
+import WriteBlogModal from './modal/WriteBlogModal';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
   const [isAuthOngoing, setIsAuthOngoing] = useState(false);
+  const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
 
   const onChangeToogle = (e) => {
@@ -22,6 +24,12 @@ const NavBar = () => {
 
   return (
     <div>
+      {isBlogCreateOngoing && (
+        <WriteBlogModal
+          open={isBlogCreateOngoing}
+          onClose={() => setIsBlogCreateOngoing(false)}
+        />
+      )}
       {isAuthOngoing ? (
         <AuthModal
           open={isAuthOngoing}
@@ -52,7 +60,11 @@ const NavBar = () => {
                 </span>
               </label>
 
-              <button type="button" className="btn-primary">
+              <button
+                onClick={() => setIsBlogCreateOngoing(true)}
+                type="button"
+                className="btn-primary"
+              >
                 Write Blog
               </button>
               <button
@@ -69,7 +81,11 @@ const NavBar = () => {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 17 14"
-                ><UserNavbarProfile username="Sabbir" userId="wdq2r3r2scsdasdfscd3e"/>
+                >
+                  <UserNavbarProfile
+                    username="Sabbir"
+                    userId="wdq2r3r2scsdasdfscd3e"
+                  />
                   <path
                     stroke="currentColor"
                     strokeLinecap="round"
@@ -102,25 +118,43 @@ const NavBar = () => {
                 <li>
                   <NavLink
                     to="/"
-                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
+                    className={(isActive) =>
+                      `block py-2 pl-3 pr-4 ${
+                        isActive
+                          ? 'text-teal dark:text-mint'
+                          : 'text-gray-700 dark:text-white'
+                      } bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`
+                    }
                     aria-current="page"
                   >
                     Dashboard
                   </NavLink>
                 </li>
                 <li>
-                <NavLink
+                  <NavLink
                     to="/about"
-                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
+                    className={(isActive) =>
+                      `block py-2 pl-3 pr-4 ${
+                        isActive
+                          ? 'text-teal dark:text-mint'
+                          : 'text-gray-700 dark:text-white'
+                      } bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`
+                    }
                     aria-current="page"
                   >
                     About
                   </NavLink>
                 </li>
                 <li>
-                <NavLink
+                  <NavLink
                     to="/contact"
-                    className={(isActive)=> `block py-2 pl-3 pr-4 ${isActive ? 'text-teal dark:text-mint': 'text-gray-700 dark:text-white'} bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`}
+                    className={(isActive) =>
+                      `block py-2 pl-3 pr-4 ${
+                        isActive
+                          ? 'text-teal dark:text-mint'
+                          : 'text-gray-700 dark:text-white'
+                      } bg-blue-700 rounded md:bg-transparent md:text-dark-teal md:p-0`
+                    }
                     aria-current="page"
                   >
                     Contact
