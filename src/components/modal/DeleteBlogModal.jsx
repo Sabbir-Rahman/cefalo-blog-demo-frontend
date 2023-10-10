@@ -1,6 +1,8 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { deleteBlog } from '../../services/blogs';
+import { notify } from '../../utils/notify';
 
 const DeleteBlogModal = ({
   open,
@@ -9,6 +11,26 @@ const DeleteBlogModal = ({
   blogId,
   accessToken,
 }) => {
+  const onSubmitHandler = async (e)=> {
+    e.preventDefault();
+
+    const response = await deleteBlog(blogId, accessToken)
+    if(response.status =="SUCCESS"){
+      onClose()
+      notify('Blog deleted successfully','success')
+    }else {
+      onClose()
+      notify('Blog not deleted', 'error')
+    }
+   
+
+  }
+
+  const onCancelHandler = (e)=> {
+    e.preventDefault();
+    onClose()
+  }
+
   return (
     <>
       <div
@@ -30,8 +52,8 @@ const DeleteBlogModal = ({
                 {modalTitle}
               </h3>
               <div className='mt-10 flex justify-around'>
-                <button className="btn-danger">Delete</button>
-                <button className="btn-secondary">Cancel</button>
+                <button onClick={onSubmitHandler} className="btn-danger">Delete</button>
+                <button onClick={onCancelHandler} className="btn-secondary">Cancel</button>
               </div>
             </div>
           </div>

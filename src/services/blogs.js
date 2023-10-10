@@ -68,4 +68,22 @@ const editBlog = async (blogId,inputData, accesstoken) => {
   }
 };
 
-export { getBlogs, createBlog, getSingleBlogById, editBlog };
+const deleteBlog = async (blogId,accesstoken) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accesstoken}`,
+      },
+    };
+    const response = await Axios.delete(`/api/v1/blogs/${blogId}`,config);
+    console.log(response)
+    return { status: 'SUCCESS'};
+  } catch (err) {
+    console.log(err)
+    return {
+      status: 'ERROR'
+    };
+  }
+};
+
+export { getBlogs, createBlog, getSingleBlogById, editBlog, deleteBlog };
