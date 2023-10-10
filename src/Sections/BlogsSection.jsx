@@ -36,7 +36,6 @@ const BlogsSection = () => {
     setLoading(true);
     const response = await getBlogs(page);
     if (response.status == 'SUCCESS') {
-      
       console.log(blogs);
       console.log(response.blogs);
       setBlogs([...blogs, ...response.blogs]);
@@ -64,14 +63,13 @@ const BlogsSection = () => {
 
   return (
     <>
-      
       {authuserInfo.accessToken && (
         <WriteBlogCard
           onCreate={onCreateBlog}
           accessToken={authuserInfo.accessToken}
         />
       )}
-     
+
       <div>
         {blogs
           .sort((a, b) => {
@@ -84,7 +82,8 @@ const BlogsSection = () => {
               blogId={blog.blogId}
               key={blog.time}
               title={blog.title}
-              author={blog.authorName}
+              authorName={blog.authorName}
+              authorId={blog.authorId}
               time={blog.time}
               body={blog.body}
               img={`https://picsum.photos/id/${Math.floor(
