@@ -48,4 +48,24 @@ const createBlog = async (inputData, accesstoken) => {
   }
 };
 
-export { getBlogs, createBlog, getSingleBlogById };
+const editBlog = async (blogId,inputData, accesstoken) => {
+  try {
+    const config = {
+      headers: {
+        Authorization: `Bearer ${accesstoken}`,
+      },
+    };
+    const response = await Axios.patch(`/api/v1/blogs/${blogId}`, inputData, config);
+    console.log(response)
+    return { status: 'SUCCESS', message: response.data.message };
+  } catch (err) {
+    console.log(err)
+    return {
+      status: 'ERROR',
+      message: err.response.data.message,
+      developerMessage: err.response.data.developerMessage,
+    };
+  }
+};
+
+export { getBlogs, createBlog, getSingleBlogById, editBlog };

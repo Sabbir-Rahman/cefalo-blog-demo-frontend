@@ -2,8 +2,18 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import WriteBlogCard from '../WriteBlogCard';
+import EditBlogCard from '../EditBlogCard ';
 
-const WriteBlogModal = ({ open, onClose, modalTitle ,title, body, btnTitle, onSubmit }) => {
+const EditBlogModal = ({
+  open,
+  onClose,
+  modalTitle,
+  blogId,
+  title,
+  body,
+  btnTitle,
+  accessToken
+}) => {
   return (
     <>
       <div
@@ -24,7 +34,14 @@ const WriteBlogModal = ({ open, onClose, modalTitle ,title, body, btnTitle, onSu
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 {modalTitle}
               </h3>
-              <WriteBlogCard onCreate={()=> console.log()} title={title} body={body} btnTitle={btnTitle} onSubmit={onSubmit}/>
+              <EditBlogCard
+                blogId={blogId}
+                title={title}
+                body={body}
+                btnTitle={btnTitle}
+                onClose={onClose}
+                accessToken={accessToken}
+              />
             </div>
           </div>
         </div>
@@ -33,4 +50,4 @@ const WriteBlogModal = ({ open, onClose, modalTitle ,title, body, btnTitle, onSu
   );
 };
 
-export default WriteBlogModal;
+export default EditBlogModal;

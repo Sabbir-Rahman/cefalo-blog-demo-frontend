@@ -4,12 +4,16 @@ import { getBlogs } from '../services/blogs';
 import WriteBlogCard from '../components/WriteBlogCard';
 import useAuthContext from '../contexts/auth';
 import LoadingSpinner from '../components/LoadingSpinner';
+import WriteBlogModal from '../components/modal/WriteBlogModal';
+import EditBlogModal from '../components/modal/EditBlogModal';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [editBlogOngoing, setEditBlogOngoing] = useState(false);
+  const [currentBlog, setCurrentBlog] = useState({});
 
   const infiniteScroll = async () => {
     try {
@@ -60,36 +64,58 @@ const BlogsSection = () => {
 
   return (
     <>
-      {authuserInfo.accessToken && (
-        <WriteBlogCard
-          onCreate={onCreateBlog}
+      {editBlogOngoing ? (
+        <EditBlogModal
+          open={editBlogOngoing}
+          onClose={() => setEditBlogOngoing(false)}
+          modalTitle="Edit Blog"
+          blogId={currentBlog.blogId}
+          title={currentBlog.title}
+          body={currentBlog.body}
+          btnTitle="Edit Blog"
           accessToken={authuserInfo.accessToken}
         />
-      )}
-
-      <div>
-        {blogs
-          .sort((a, b) => {
-            const timeA = new Date(a.time);
-            const timeB = new Date(b.time);
-            return timeB - timeA;
-          })
-          .map((blog) => (
-            <Card
-              blogId={blog.blogId}
-              key={blog.time}
-              title={blog.title}
-              authorName={blog.authorName}
-              authorId={blog.authorId}
-              time={blog.time}
-              body={blog.body}
-              img={`https://picsum.photos/id/${Math.floor(
-                Math.random() * 100
-              )}/200`}
+      ) : (
+        <div>
+          {authuserInfo.accessToken && (
+            <WriteBlogCard
+              onCreate={onCreateBlog}
+              accessToken={authuserInfo.accessToken}
+              title=""
+              body=""
+              btnTitle="Create Blog"
             />
-          ))}
-      </div>
-      {loading && <LoadingSpinner />}
+          )}
+
+          <div>
+            {blogs
+              .sort((a, b) => {
+                const timeA = new Date(a.time);
+                const timeB = new Date(b.time);
+                return timeB - timeA;
+              })
+              .map((blog) => (
+                <Card
+                  blogId={blog.blogId}
+                  key={blog.time}
+                  title={blog.title}
+                  authorName={blog.authorName}
+                  authorId={blog.authorId}
+                  time={blog.time}
+                  body={blog.body}
+                  onEdit={() => {
+                    setEditBlogOngoing(true);
+                    setCurrentBlog(blog);
+                  }}
+                  img={`https://picsum.photos/id/${Math.floor(
+                    Math.random() * 100
+                  )}/200`}
+                />
+              ))}
+          </div>
+          {loading && <LoadingSpinner />}
+        </div>
+      )}
     </>
   );
 };

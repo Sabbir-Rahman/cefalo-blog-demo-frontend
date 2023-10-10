@@ -7,7 +7,7 @@ import AuthModal from './AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
 import useAuthContext from '../contexts/auth';
 import { NavLink, Link } from 'react-router-dom';
-import WriteBlogModal from './modal/WriteBlogModal';
+import WriteAndEditBlogModal from './modal/WriteBlogModal';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
@@ -25,9 +25,13 @@ const NavBar = () => {
   return (
     <div>
       {isBlogCreateOngoing && (
-        <WriteBlogModal
+        <WriteAndEditBlogModal
           open={isBlogCreateOngoing}
           onClose={() => setIsBlogCreateOngoing(false)}
+          modalTitle="Create your own blog"
+          title=""
+          body=""
+          btnTitle="Create Blog"
         />
       )}
       {isAuthOngoing ? (

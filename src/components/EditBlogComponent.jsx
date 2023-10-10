@@ -1,11 +1,12 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const EditBlogComponent = () => {
+const EditBlogComponent = ({ onEdit }) => {
   return (
     <div className="ml-auto">
       <button
         type="button"
+        onClick={()=> onEdit()}
         className="hover:bg-teal rounded-lg hover:bg-opacity-10 p-2"
       >
         <FontAwesomeIcon icon={faPenToSquare} style={{ color: '#35a29f' }} />
