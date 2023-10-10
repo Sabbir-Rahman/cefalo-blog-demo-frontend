@@ -1,7 +1,6 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import WriteBlogCard from '../WriteBlogCard';
 import EditBlogCard from '../EditBlogCard ';
 
 const EditBlogModal = ({
