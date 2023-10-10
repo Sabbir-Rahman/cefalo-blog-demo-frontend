@@ -1,7 +1,12 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import useAuthContext from '../contexts/auth';
+
 export const UserNavbarProfile = ({userId, username}) => {
   const [isOpen, setIsOpen] = useState(false);
+  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+
   return (
     <div className="flex justify-end items-center mx-6">
       <button
@@ -31,12 +36,13 @@ export const UserNavbarProfile = ({userId, username}) => {
         </div>
         <ul className="py-2" aria-labelledby="user-menu-button">
           <li>
-            <a
-              href="#"
+            <Link
+              to={`/blogs/author/${authuserInfo.userId}`}
+              onClick={()=> setIsOpen(false)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
             >
               My Blogs
-            </a>
+            </Link>
           </li>
 
           <li>

@@ -7,6 +7,7 @@ import BlogsSection from './Sections/BlogsSection.jsx'
 import AboutSection from './Sections/AboutSection.jsx'
 import ContactSection from './Sections/ContactSection.jsx'
 import PostDetailsSection from './Sections/PostDetailsSection.jsx'
+import AuthorBlogsSection from './Sections/AuthorBlogsSection.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -15,6 +16,7 @@ const router = createBrowserRouter(
       <Route path='about' element={<AboutSection/>} />
       <Route path='contact' element={<ContactSection/>} />
       <Route path='blog/:blogId' element={<PostDetailsSection/>} />
+      <Route path='blogs/author/:authorId' element={<AuthorBlogsSection/>} />
     </Route>
   )
 )

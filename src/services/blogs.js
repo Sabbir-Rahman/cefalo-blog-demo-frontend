@@ -14,6 +14,20 @@ const getBlogs = async (page=1, limit=7) => {
   }
 };
 
+const getAuthorBlogs = async (authorId,page=1, limit=7) => {
+  try {
+    const response = await Axios.get(`/api/v1/blogs/author/${authorId}?page=${page}&limit=${limit}`);
+    return { status: 'SUCCESS', blogs: response.data.data };
+  } catch (err) {
+    return {
+      status: 'ERR',
+      blogs: [],
+      message: err.response.data.message,
+      developerMessage: err.response.data.developerMessage,
+    };
+  }
+};
+
 const getSingleBlogById = async (blogId) => {
   try {
     const response = await Axios.get(`/api/v1/blogs/${blogId}`);
@@ -86,4 +100,4 @@ const deleteBlog = async (blogId,accesstoken) => {
   }
 };
 
-export { getBlogs, createBlog, getSingleBlogById, editBlog, deleteBlog };
+export { getBlogs, createBlog, getSingleBlogById, editBlog, deleteBlog, getAuthorBlogs };
