@@ -32,8 +32,21 @@ const BlogsSection = () => {
     }
   }
 
+  async function onDeleteBlog(blogId) {
+    const blogsCollection = blogs.filter(blog => blog.blogId != blogId);
+    setBlogs(blogsCollection)
+  }
+
+  async function onEditBlog(blogId, title,body) {
+    const indexToEdit = blogs.findIndex(blog => blog.blogId === blogId)
+
+    if(indexToEdit != -1){
+      blogs[indexToEdit].title = title
+      blogs[indexToEdit].body = body
+    }
+  }
+
   useEffect(() => {
-    console.log('hit');
     fetchBlogs();
   }, [page]);
 
@@ -82,6 +95,7 @@ const BlogsSection = () => {
               body={currentBlog.body}
               btnTitle="Edit Blog"
               accessToken={authuserInfo.accessToken}
+              onEdit={onEditBlog}
             />
           ) : (
             <DeleteBlogModal
@@ -89,7 +103,9 @@ const BlogsSection = () => {
               onClose={() => setDeleteBlogOngoing(false)}
               modalTitle="Are you sure ? you want to delete the blog"
               blogId={currentBlog.blogId}
+              
               accessToken={authuserInfo.accessToken}
+              onDelete={onDeleteBlog}
             />
           )}
         </div>

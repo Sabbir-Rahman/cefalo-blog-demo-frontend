@@ -10,12 +10,14 @@ const DeleteBlogModal = ({
   modalTitle,
   blogId,
   accessToken,
+  onDelete,
 }) => {
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
     const response = await deleteBlog(blogId, accessToken);
     if (response.status == 'SUCCESS') {
+      onDelete(blogId)
       onClose();
       notify('Blog deleted successfully', 'success');
     } else {

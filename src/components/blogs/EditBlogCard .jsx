@@ -11,6 +11,7 @@ const EditBlogCard = ({
   btnTitle,
   onClose,
   accessToken,
+  onEdit,
 }) => {
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
@@ -34,10 +35,15 @@ const EditBlogCard = ({
       );
       if (response.status == 'SUCCESS') {
         setIsBlogEditOngoing(false);
+        onEdit(blogId, blogTitle,blogBody);
         onClose();
         setTitle('');
         setBody('');
         notify(response.message, 'success');
+      }else {
+        setIsBlogEditOngoing(false);
+        onClose();
+        notify(response.message, 'error');
       }
     }
 

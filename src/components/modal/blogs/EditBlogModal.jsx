@@ -12,6 +12,7 @@ const EditBlogModal = ({
   body,
   btnTitle,
   accessToken,
+  onEdit
 }) => {
   return (
     <>
@@ -40,6 +41,7 @@ const EditBlogModal = ({
                 btnTitle={btnTitle}
                 onClose={onClose}
                 accessToken={accessToken}
+                onEdit={onEdit}
               />
             </div>
           </div>
