@@ -1,16 +1,15 @@
 import Card from '../components/Card';
 import { useState, useEffect } from 'react';
 import { getBlogs } from '../services/blogs';
-import WriteBlogCard from '../components/WriteBlogCard';
+import WriteBlogCard from '../components/blogs/WriteBlogCard';
 import useAuthContext from '../contexts/auth';
 import LoadingSpinner from '../components/LoadingSpinner';
-import WriteBlogModal from '../components/modal/WriteBlogModal';
-import EditBlogModal from '../components/modal/EditBlogModal';
-import DeleteBlogModal from '../components/modal/DeleteBlogModal';
+import EditBlogModal from '../components/modal/blogs/EditBlogModal';
+import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const { authuserInfo } = useAuthContext();
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
@@ -20,14 +19,13 @@ const BlogsSection = () => {
   async function fetchBlogs() {
     setLoading(true);
     const response = await getBlogs(page);
-    const data = await response.blogs;
     if (response.status == 'SUCCESS') {
-      if (page>1){
+      if (page > 1) {
         setBlogs((prev) => [...prev, ...response.blogs]);
-      }else{
-        setBlogs([...response.blogs])
+      } else {
+        setBlogs([...response.blogs]);
       }
-      
+
       setLoading(false);
     } else {
       setLoading(false);

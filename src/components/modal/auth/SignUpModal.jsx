@@ -5,13 +5,13 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useState } from 'react';
-import LoadingPrimaryButton from './LoadingPrimaryButton';
-import { notify } from '../utils/notify';
+import LoadingPrimaryButton from '../../LoadingPrimaryButton';
+import { notify } from '../../../utils/notify';
 import 'react-toastify/dist/ReactToastify.css';
-import useAuthContext from '../contexts/auth';
-import { createAuthors } from '../services/auth';
-import '../css/modal.css';
-import ModalInput from './modal/ModalInput';
+import useAuthContext from '../../../contexts/auth';
+import { createAuthors } from '../../../services/auth';
+import '../../../css/modal.css';
+import ModalInput from '../ModalInput';
 
 const schema = Joi.object({
   name: Joi.string().required().required(),
@@ -23,7 +23,7 @@ const schema = Joi.object({
 });
 
 const SignUpModal = ({ open, onClose, goToLogin }) => {
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const { setAuthContextInfo } = useAuthContext();
   
   const {
     register,

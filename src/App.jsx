@@ -2,10 +2,8 @@
 import { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import { ThemeProvider } from './contexts/theme';
-import SignUpModal from './components/SignUpModal';
 import { ToastContainer } from 'react-toastify';
 import { AuthContextProvider } from './contexts/auth';
-import BlogsSection from './Sections/BlogsSection';
 import { Outlet } from 'react-router-dom';
 
 const App = () => {

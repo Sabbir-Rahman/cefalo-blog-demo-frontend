@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { deleteBlog } from '../../services/blogs';
-import { notify } from '../../utils/notify';
+import { deleteBlog } from '../../../services/blogs';
+import { notify } from '../../../utils/notify';
 
 const DeleteBlogModal = ({
   open,
@@ -11,25 +11,23 @@ const DeleteBlogModal = ({
   blogId,
   accessToken,
 }) => {
-  const onSubmitHandler = async (e)=> {
+  const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const response = await deleteBlog(blogId, accessToken)
-    if(response.status =="SUCCESS"){
-      onClose()
-      notify('Blog deleted successfully','success')
-    }else {
-      onClose()
-      notify('Blog not deleted', 'error')
+    const response = await deleteBlog(blogId, accessToken);
+    if (response.status == 'SUCCESS') {
+      onClose();
+      notify('Blog deleted successfully', 'success');
+    } else {
+      onClose();
+      notify('Blog not deleted', 'error');
     }
-   
+  };
 
-  }
-
-  const onCancelHandler = (e)=> {
+  const onCancelHandler = (e) => {
     e.preventDefault();
-    onClose()
-  }
+    onClose();
+  };
 
   return (
     <>
@@ -51,9 +49,13 @@ const DeleteBlogModal = ({
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 {modalTitle}
               </h3>
-              <div className='mt-10 flex justify-around'>
-                <button onClick={onSubmitHandler} className="btn-danger">Delete</button>
-                <button onClick={onCancelHandler} className="btn-secondary">Cancel</button>
+              <div className="mt-10 flex justify-around">
+                <button onClick={onSubmitHandler} className="btn-danger">
+                  Delete
+                </button>
+                <button onClick={onCancelHandler} className="btn-secondary">
+                  Cancel
+                </button>
               </div>
             </div>
           </div>

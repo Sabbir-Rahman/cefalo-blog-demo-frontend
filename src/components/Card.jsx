@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
 import useAuthContext from '../contexts/auth';
-import EditBlogComponent from './EditBlogComponent';
+import EditBlogComponent from './blogs/EditBlogComponent';
 
 const Card = ({
   blogId,
@@ -14,7 +14,7 @@ const Card = ({
   onEdit,
   onDelete,
 }) => {
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const { authuserInfo } = useAuthContext();
 
   return (
     <div className="flex justify-center mt-10">

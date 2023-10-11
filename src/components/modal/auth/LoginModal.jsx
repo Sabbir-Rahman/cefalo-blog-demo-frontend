@@ -4,14 +4,14 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
-import { login } from '../services/auth';
+import { login } from '../../../services/auth';
 import { useState } from 'react';
-import LoadingPrimaryButton from './LoadingPrimaryButton';
+import LoadingPrimaryButton from '../../LoadingPrimaryButton';
 import 'react-toastify/dist/ReactToastify.css';
-import useAuthContext from '../contexts/auth';
-import '../css/modal.css';
-import ModalInput from './modal/ModalInput';
-import { notify } from '../utils/notify';
+import useAuthContext from '../../../contexts/auth';
+import '../../../css/modal.css';
+import ModalInput from '../ModalInput';
+import { notify } from '../../../utils/notify';
 
 const schema = Joi.object({
   email: Joi.string()
@@ -24,7 +24,7 @@ const schema = Joi.object({
 const LoginModal = ({ open, onClose, goToSignUp }) => {
   // eslint-disable-next-line no-unused-vars
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
-  
+
   const {
     register,
     handleSubmit,
@@ -64,7 +64,7 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                   } else {
                     setLoginOngoing(false);
                     setErrorFromApi(false);
-                    notify(response.message,'success');
+                    notify(response.message, 'success');
 
                     setAuthContextInfo(
                       response.userObj.userId,
@@ -88,7 +88,7 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                   errors={errors}
                   errorKey="email"
                 />
-                
+
                 <ModalInput
                   label="Your Password"
                   type="password"

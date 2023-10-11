@@ -1,17 +1,16 @@
 /* eslint-disable react/prop-types */
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import EditBlogCard from '../EditBlogCard ';
+import WriteBlogCard from '../../blogs/WriteBlogCard';
 
-const EditBlogModal = ({
+const WriteBlogModal = ({
   open,
   onClose,
   modalTitle,
-  blogId,
   title,
   body,
   btnTitle,
-  accessToken
+  onSubmit,
 }) => {
   return (
     <>
@@ -33,13 +32,12 @@ const EditBlogModal = ({
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
                 {modalTitle}
               </h3>
-              <EditBlogCard
-                blogId={blogId}
+              <WriteBlogCard
+                onCreate={() => console.log()}
                 title={title}
                 body={body}
                 btnTitle={btnTitle}
-                onClose={onClose}
-                accessToken={accessToken}
+                onSubmit={onSubmit}
               />
             </div>
           </div>
@@ -49,4 +47,4 @@ const EditBlogModal = ({
   );
 };
 
-export default EditBlogModal;
+export default WriteBlogModal;

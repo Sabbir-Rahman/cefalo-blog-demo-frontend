@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import useTheme from '../contexts/theme';
 import { useState } from 'react';
-import AuthModal from './AuthModal';
+import AuthModal from './modal/auth/AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
 import useAuthContext from '../contexts/auth';
 import { NavLink, Link } from 'react-router-dom';
-import WriteAndEditBlogModal from './modal/WriteBlogModal';
+import WriteBlogModal from './modal/blogs/WriteBlogModal';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
@@ -25,7 +25,7 @@ const NavBar = () => {
   return (
     <div>
       {isBlogCreateOngoing && (
-        <WriteAndEditBlogModal
+        <WriteBlogModal
           open={isBlogCreateOngoing}
           onClose={() => setIsBlogCreateOngoing(false)}
           modalTitle="Create your own blog"

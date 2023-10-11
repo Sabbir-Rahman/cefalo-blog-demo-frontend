@@ -1,9 +1,8 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
-import { createBlog, editBlog } from '../services/blogs';
-import { toast } from 'react-toastify';
-import LoadingPrimaryButton from './LoadingPrimaryButton';
-import { notify } from '../utils/notify';
+import { editBlog } from '../../services/blogs';
+import LoadingPrimaryButton from '../LoadingPrimaryButton';
+import { notify } from '../../utils/notify';
 
 const EditBlogCard = ({
   blogId,

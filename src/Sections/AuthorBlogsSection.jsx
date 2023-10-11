@@ -2,17 +2,17 @@
 import Card from '../components/Card';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { getAuthorBlogs, getBlogs } from '../services/blogs';
+import { getAuthorBlogs } from '../services/blogs';
 import useAuthContext from '../contexts/auth';
 import LoadingSpinner from '../components/LoadingSpinner';
-import EditBlogModal from '../components/modal/EditBlogModal';
-import DeleteBlogModal from '../components/modal/DeleteBlogModal';
+import EditBlogModal from '../components/modal/blogs/EditBlogModal';
+import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
 
 const AuthorBlogsSection = () => {
   const { authorId } = useParams();
 
   const [blogs, setBlogs] = useState([]);
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const { authuserInfo } = useAuthContext();
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
