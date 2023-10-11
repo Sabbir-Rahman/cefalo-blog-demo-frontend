@@ -56,10 +56,10 @@ const WriteBlogCard = ({
 
     if (blogTitle == '' || blogBody == '') {
       if (blogBody == '') {
-        setErrors({ ...errors, body: { message: 'Body cannot be null' } });
+        setErrors({ ...errors, body: { message: 'Body is required' } });
       }
       if (blogTitle == '') {
-        setErrors({ ...errors, title: { message: 'Title cannot be null' } });
+        setErrors({ ...errors, title: { message: 'Title is required' } });
       }
     } else {
       sendRequest();

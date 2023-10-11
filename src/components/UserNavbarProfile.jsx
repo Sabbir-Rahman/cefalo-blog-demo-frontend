@@ -3,15 +3,21 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useAuthContext from '../contexts/auth';
 
-export const UserNavbarProfile = ({userId, username}) => {
+export const UserNavbarProfile = ({ userId, username }) => {
   const [isOpen, setIsOpen] = useState(false);
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
+
+  const signOut = () => {
+    localStorage.removeItem('user');
+    setAuthContextInfo(null, null, [], null, null);
+    // window.location.reload();
+  };
 
   return (
     <div className="flex justify-end items-center mx-6">
       <button
         type="button"
-        onClick={()=> setIsOpen(!isOpen)}
+        onClick={() => setIsOpen(!isOpen)}
         className="flex mr-3 text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
         id="user-menu-button"
       >
@@ -24,7 +30,9 @@ export const UserNavbarProfile = ({userId, username}) => {
       </button>
 
       <div
-        className={`${!isOpen && 'hidden'} z-50 fixed mt-60 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
+        className={`${
+          !isOpen && 'hidden'
+        } z-50 fixed mt-60 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600`}
       >
         <div className="px-4 py-3">
           <span className="block text-sm text-gray-900 dark:text-white">
@@ -38,20 +46,18 @@ export const UserNavbarProfile = ({userId, username}) => {
           <li>
             <Link
               to={`/blogs/author/${authuserInfo.userId}`}
-              onClick={()=> setIsOpen(false)}
+              onClick={() => setIsOpen(false)}
               className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
             >
               My Blogs
             </Link>
           </li>
 
-          <li>
-            <a
-              href="#"
-              className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-            >
-              Sign out
-            </a>
+          <li
+            onClick={signOut}
+            className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+          >
+            <button>Sign out</button>
           </li>
         </ul>
       </div>
