@@ -18,7 +18,7 @@ const Card = ({
 
   return (
     <div className="flex justify-center mt-10">
-      <div className="w-full flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <div className="card-background">
         <img
           className="object-cover p-4 w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
           src={img}

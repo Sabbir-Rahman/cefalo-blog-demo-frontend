@@ -18,13 +18,13 @@ const WriteBlogCard = ({
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
-    if(e.target.value != ""){
+    if (e.target.value != '') {
       setErrors({ ...errors, title: null });
     }
   };
   const onChangeBody = (e) => {
     setBody(e.target.value);
-    if(e.target.value != ""){
+    if (e.target.value != '') {
       setErrors({ ...errors, body: null });
     }
   };
@@ -37,27 +37,33 @@ const WriteBlogCard = ({
       const response = await createBlog(
         { title: blogTitle, body: blogBody },
         accessToken
-      );
-      
-      setIsBlogCreateOngoing(false);
-      const blogId = response.data.blogId
-      const authorId = response.data.authorId
-      onCreate(blogTitle, blogBody,blogId, authorId);
-      setTitle('');
-      setBody('');
+      ); 
+      if (response.status == 'SUCCESS') {
+        setIsBlogCreateOngoing(false);
+        const blogId = response.data.blogId;
+        const authorId = response.data.authorId;
+        onCreate(blogTitle, blogBody, blogId, authorId);
+        setTitle('');
+        setBody('');
+        notify('Blog created', 'success');
+      }else {
+        setIsBlogCreateOngoing(false);
+        setTitle('')
+        setBody('')
+        notify(`Blog not created,${response.message}`,'error')
+      }
     }
 
     if (blogTitle == '' || blogBody == '') {
       if (blogBody == '') {
         setErrors({ ...errors, body: { message: 'Body cannot be null' } });
-  
       }
       if (blogTitle == '') {
         setErrors({ ...errors, title: { message: 'Title cannot be null' } });
       }
     } else {
       sendRequest();
-      notify('Blog created', 'success');
+      
     }
   };
 
