@@ -14,32 +14,51 @@ const WriteBlogCard = ({
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
+  const [errors, setErrors] = useState({ title: null, body: null });
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
+    if(e.target.value != ""){
+      setErrors({ ...errors, title: null });
+    }
   };
   const onChangeBody = (e) => {
     setBody(e.target.value);
+    if(e.target.value != ""){
+      setErrors({ ...errors, body: null });
+    }
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    setIsBlogCreateOngoing(true);
+
     async function sendRequest() {
+      setIsBlogCreateOngoing(true);
       const response = await createBlog(
         { title: blogTitle, body: blogBody },
         accessToken
       );
-      console.log(response);
+      
       setIsBlogCreateOngoing(false);
-
-      onCreate(blogTitle, blogBody);
+      const blogId = response.data.blogId
+      const authorId = response.data.authorId
+      onCreate(blogTitle, blogBody,blogId, authorId);
       setTitle('');
       setBody('');
     }
 
-    sendRequest();
-    notify('Blog created', 'success');
+    if (blogTitle == '' || blogBody == '') {
+      if (blogBody == '') {
+        setErrors({ ...errors, body: { message: 'Body cannot be null' } });
+  
+      }
+      if (blogTitle == '') {
+        setErrors({ ...errors, title: { message: 'Title cannot be null' } });
+      }
+    } else {
+      sendRequest();
+      notify('Blog created', 'success');
+    }
   };
 
   return (
@@ -59,6 +78,10 @@ const WriteBlogCard = ({
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="This is title"
               />
+              <p className="mb1fixed mt-1 text-sm text-red-500 dark:text-red-300">
+                {console.log(errors.title?.message)}
+                {errors.title && errors.title.message}
+              </p>
             </div>
             <div>
               <label className="block mb-2 text-sm font-light text-gray-900 dark:text-white">
@@ -72,6 +95,9 @@ const WriteBlogCard = ({
                 className="pt-10 pb-6 mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
                 placeholder="This is the body of the blog"
               />
+              <p className="mb1fixed pb-2 text-sm text-red-500 dark:text-red-300">
+                {errors.body && errors.body.message}
+              </p>
             </div>
           </form>
           {isBlogCreateOngoing ? (

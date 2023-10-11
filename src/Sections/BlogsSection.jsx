@@ -55,11 +55,13 @@ const BlogsSection = () => {
     return () => window.removeEventListener('scroll', infiniteScroll);
   }, []);
 
-  function onCreateBlog(title, body) {
+  function onCreateBlog(title, body, blogId, authorId) {
     console.log(title, body);
     const newBlog = {
       title,
       body,
+      blogId,
+      authorId,
       time: Date(),
     };
 

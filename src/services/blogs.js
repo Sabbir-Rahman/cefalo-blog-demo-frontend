@@ -51,7 +51,7 @@ const createBlog = async (inputData, accesstoken) => {
       },
     };
     const response = await Axios.post('/api/v1/blogs', inputData, config);
-    return { status: 'SUCCESS', message: response.data.message };
+    return { status: 'SUCCESS', message: response.data.message, data: response.data.data };
   } catch (err) {
     console.log(err)
     return {

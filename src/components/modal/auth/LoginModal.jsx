@@ -22,8 +22,7 @@ const schema = Joi.object({
 });
 
 const LoginModal = ({ open, onClose, goToSignUp }) => {
-  // eslint-disable-next-line no-unused-vars
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const { setAuthContextInfo } = useAuthContext();
 
   const {
     register,
