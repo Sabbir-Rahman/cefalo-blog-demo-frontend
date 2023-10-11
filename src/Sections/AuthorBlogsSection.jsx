@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import Card from '../components/Card';
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAuthorBlogs, getBlogs } from '../services/blogs';
 import useAuthContext from '../contexts/auth';
@@ -23,7 +23,8 @@ const AuthorBlogsSection = () => {
     try {
       if (
         window.innerHeight + document.documentElement.scrollTop + 1 >=
-        document.documentElement.scrollHeight
+          document.documentElement.scrollHeight &&
+        document.documentElement.scrollTop > 50
       ) {
         setCurrentPage((prev) => prev + 1);
       }
@@ -38,12 +39,15 @@ const AuthorBlogsSection = () => {
   }, []);
 
   async function fetchBlogs() {
+    console.log('fetchinggg');
     setLoading(true);
     const response = await getAuthorBlogs(authorId, page);
     if (response.status == 'SUCCESS') {
-      console.log(blogs);
-      console.log(response.blogs);
-      setBlogs([...blogs, ...response.blogs]);
+      if (page > 1) {
+        setBlogs((prev) => [...prev, ...response.blogs]);
+      } else {
+        setBlogs([...response.blogs]);
+      }
       setLoading(false);
     } else {
       setBlogs([]);
@@ -53,7 +57,7 @@ const AuthorBlogsSection = () => {
 
   useEffect(() => {
     fetchBlogs();
-  }, [page]);
+  }, [authorId, page]);
 
   return (
     <>

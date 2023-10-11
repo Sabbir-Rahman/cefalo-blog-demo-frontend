@@ -17,6 +17,28 @@ const BlogsSection = () => {
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
 
+  async function fetchBlogs() {
+    setLoading(true);
+    const response = await getBlogs(page);
+    const data = await response.blogs;
+    if (response.status == 'SUCCESS') {
+      if (page>1){
+        setBlogs((prev) => [...prev, ...response.blogs]);
+      }else{
+        setBlogs([...response.blogs])
+      }
+      
+      setLoading(false);
+    } else {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    console.log('hit');
+    fetchBlogs();
+  }, [page]);
+
   const infiniteScroll = async () => {
     try {
       if (
@@ -34,24 +56,6 @@ const BlogsSection = () => {
     window.addEventListener('scroll', infiniteScroll);
     return () => window.removeEventListener('scroll', infiniteScroll);
   }, []);
-
-  async function fetchBlogs() {
-    setLoading(true);
-    const response = await getBlogs(page);
-    if (response.status == 'SUCCESS') {
-      console.log(blogs);
-      console.log(response.blogs);
-      setBlogs([...blogs, ...response.blogs]);
-      setLoading(false);
-    } else {
-      setBlogs([]);
-      setLoading(false);
-    }
-  }
-
-  useEffect(() => {
-    fetchBlogs();
-  }, [page]);
 
   function onCreateBlog(title, body) {
     console.log(title, body);
