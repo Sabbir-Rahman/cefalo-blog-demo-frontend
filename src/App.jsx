@@ -14,14 +14,12 @@ const App = () => {
     refreshToken: null,
     role: [],
   });
+  const [currentTheme, setCurrentTheme] = useState('dark');
 
   // setting up the auth context from local storage
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    console.log(user);
     if (authuserInfo.userId == null && user) {
-      console.log('context hit');
-      console.log(user);
       setAuthContextInfo(
         user.userId,
         user.name,
@@ -30,15 +28,23 @@ const App = () => {
         user.role
       );
     }
+
+    // set the theme
+    const theme = localStorage.getItem('theme');
+    if (theme == 'light') {
+      applyLightTheme();
+    }
   }, []);
 
   useEffect(() => {
     if (authuserInfo.userId != null) {
       localStorage.setItem('user', JSON.stringify(authuserInfo));
     }
-  }, [authuserInfo]);
+    if (currentTheme) {
+      localStorage.setItem('theme', currentTheme);
+    }
+  }, [authuserInfo, currentTheme]);
 
-  const [currentTheme, setCurrentTheme] = useState('dark');
   const applyDarkTheme = () => {
     setCurrentTheme('dark');
   };
@@ -56,7 +62,7 @@ const App = () => {
     setAuthuserInfo({
       userId,
       name,
-      
+
       accessToken,
       refreshToken,
       role,
@@ -84,7 +90,7 @@ const App = () => {
         />
         <div className="min-h-screen bg-white dark:bg-navy">
           <NavBar />
-          <Outlet/>
+          <Outlet />
           {/* <SignUpModal />
           <BlogsSection /> */}
         </div>
