@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { editBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
+import useAuthContext from '../../contexts/auth';
 
 const EditBlogCard = ({
   blogId,
@@ -16,6 +17,7 @@ const EditBlogCard = ({
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
   const [isBlogEditOngoing, setIsBlogEditOngoing] = useState(false);
+  const { authuserInfo, setAuthContextInfo } = useAuthContext();
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -31,16 +33,29 @@ const EditBlogCard = ({
       const response = await editBlog(
         blogId,
         { title: blogTitle, body: blogBody },
-        accessToken
+        accessToken,
+        authuserInfo.refreshToken,
+        false,
+        {}
       );
       if (response.status == 'SUCCESS') {
         setIsBlogEditOngoing(false);
-        onEdit(blogId, blogTitle,blogBody);
+        onEdit(blogId, blogTitle, blogBody);
         onClose();
         setTitle('');
         setBody('');
+        console.log(response)
+        if (response.isNewToken) {
+          setAuthContextInfo(
+            response.userObj.userId,
+            response.userObj.name,
+            response.userObj.role,
+            response.accessToken,
+            response.refreshToken
+          );
+        }
         notify(response.message, 'success');
-      }else {
+      } else {
         setIsBlogEditOngoing(false);
         onClose();
         notify(response.message, 'error');

@@ -46,9 +46,6 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
         setBody('');
         console.log(response)
         if(response.isNewToken){
-          console.log('hit')
-          
-          
           setAuthContextInfo(
             response.userObj.userId,
             response.userObj.name,

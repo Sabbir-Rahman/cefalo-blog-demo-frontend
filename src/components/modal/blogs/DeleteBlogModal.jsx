@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { deleteBlog } from '../../../services/blogs';
 import { notify } from '../../../utils/notify';
+import useAuthContext from '../../../contexts/auth';
 
 const DeleteBlogModal = ({
   open,
@@ -12,17 +13,35 @@ const DeleteBlogModal = ({
   accessToken,
   onDelete,
 }) => {
+  const { authuserInfo, setAuthContextInfo } = useAuthContext();
+
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
-    const response = await deleteBlog(blogId, accessToken);
+    const response = await deleteBlog(
+      blogId,
+      accessToken,
+      authuserInfo.refreshToken,
+      false,
+      {}
+    );
     if (response.status == 'SUCCESS') {
-      onDelete(blogId)
+      onDelete(blogId);
       onClose();
+      console.log(response)
+      if (response.isNewToken) {
+        setAuthContextInfo(
+          response.userObj.userId,
+          response.userObj.name,
+          response.userObj.role,
+          response.accessToken,
+          response.refreshToken
+        );
+      }
       notify('Blog deleted successfully', 'success');
     } else {
       onClose();
-      notify('Blog not deleted', 'error');
+      notify(`Blogs not deleted.${response.message}`, 'error');
     }
   };
 

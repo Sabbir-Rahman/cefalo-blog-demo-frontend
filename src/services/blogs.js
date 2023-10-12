@@ -50,7 +50,7 @@ const getSingleBlogById = async (blogId) => {
 
 const createBlog = async (
   inputData,
-  accesstoken,
+  accessToken,
   refreshToken,
   isNewToken,
   userObj
@@ -58,7 +58,7 @@ const createBlog = async (
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${accesstoken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await Axios.post('/api/v1/blogs', inputData, config);
@@ -67,13 +67,14 @@ const createBlog = async (
       message: response.data.message,
       data: response.data.data,
       isNewToken,
+      accessToken,
+      refreshToken,
       userObj,
     };
   } catch (err) {
     if (err.response.status == 401) {
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
       if (newToken.status == 'SUCCESS') {
-        console.log('============new token==================');
         // callling the function again with new token
         return await createBlog(
           inputData,
@@ -83,6 +84,11 @@ const createBlog = async (
           newToken.userObj
         );
       }
+      return {
+        status: 'ERROR',
+        message: err.response.data.message,
+        developerMessage: err.response.data.developerMessage,
+      };
     } else {
       return {
         status: 'ERROR',
@@ -93,11 +99,18 @@ const createBlog = async (
   }
 };
 
-const editBlog = async (blogId, inputData, accesstoken) => {
+const editBlog = async (
+  blogId,
+  inputData,
+  accessToken,
+  refreshToken,
+  isNewToken,
+  userObj
+) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${accesstoken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
     const response = await Axios.patch(
@@ -105,33 +118,89 @@ const editBlog = async (blogId, inputData, accesstoken) => {
       inputData,
       config
     );
-    console.log(response);
-    return { status: 'SUCCESS', message: response.data.message };
-  } catch (err) {
-    console.log(err);
+
     return {
-      status: 'ERROR',
-      message: err.response.data.message,
-      developerMessage: err.response.data.developerMessage,
+      status: 'SUCCESS',
+      message: response.data.message,
+      data: response.data.data,
+      isNewToken,
+      accessToken,
+      refreshToken,
+      userObj,
     };
+  } catch (err) {
+    if (err.response.status == 401) {
+      const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
+      if (newToken.status == 'SUCCESS') {
+        // callling the function again with new token
+        return await editBlog(
+          blogId,
+          inputData,
+          newToken.accessToken,
+          refreshToken,
+          true,
+          newToken.userObj
+        );
+      }
+      return {
+        status: 'ERROR',
+        message: err.response.data.message,
+        developerMessage: err.response.data.developerMessage,
+      };
+    } else {
+      return {
+        status: 'ERROR',
+        message: err.response.data.message,
+        developerMessage: err.response.data.developerMessage,
+      };
+    }
   }
 };
 
-const deleteBlog = async (blogId, accesstoken) => {
+const deleteBlog = async (
+  blogId,
+  accessToken,
+  refreshToken,
+  isNewToken,
+  userObj
+) => {
   try {
     const config = {
       headers: {
-        Authorization: `Bearer ${accesstoken}`,
+        Authorization: `Bearer ${accessToken}`,
       },
     };
-    const response = await Axios.delete(`/api/v1/blogs/${blogId}`, config);
-    console.log(response);
-    return { status: 'SUCCESS' };
-  } catch (err) {
-    console.log(err);
+    await Axios.delete(`/api/v1/blogs/${blogId}`, config);
     return {
-      status: 'ERROR',
+      status: 'SUCCESS',
+      isNewToken,
+      accessToken,
+      refreshToken,
+      userObj,
     };
+  } catch (err) {
+    if (err.response.status == 401) {
+      const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
+      if (newToken.status == 'SUCCESS') {
+        // callling the function again with new token
+        return await deleteBlog(
+          blogId,
+          newToken.accessToken,
+          refreshToken,
+          true,
+          newToken.userObj
+        );
+      }
+      return {
+        status: 'ERROR',
+        message: err.response.data.message,
+        developerMessage: err.response.data.developerMessage,
+      };
+    } else {
+      return {
+        status: 'ERROR',
+      };
+    }
   }
 };
 

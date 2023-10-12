@@ -111,7 +111,7 @@ const BlogsSection = () => {
         </div>
       ) : (
         <div>
-          {console.log(authuserInfo)}
+
           {authuserInfo.accessToken && (
             <WriteBlogCard
               onCreate={onCreateBlog}
