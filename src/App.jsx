@@ -23,9 +23,10 @@ const App = () => {
       setAuthContextInfo(
         user.userId,
         user.name,
+        user.role,
         user.accessToken,
         user.refreshToken,
-        user.role
+        
       );
     }
 
@@ -62,7 +63,6 @@ const App = () => {
     setAuthuserInfo({
       userId,
       name,
-
       accessToken,
       refreshToken,
       role,

@@ -3,18 +3,14 @@ import { useState } from 'react';
 import { createBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
+import useAuthContext from '../../contexts/auth';
 
-const WriteBlogCard = ({
-  accessToken = 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiIwNDhlNWY0YS1hYjVkLTRmZDMtODVhMS1jNDNhZTUzYTAzZDkiLCJuYW1lIjoic2FiYmlyIiwicm9sZSI6WyJhdXRob3IiXSwiaWF0IjoxNjk2NTY2NTc2LCJleHAiOjE2OTY1Njc3NzZ9.Ya9Gp4FNGgQKg5gSJoPDY6suO13-CXN-U1kdX2K6lga8BVBF1f50OyMKo6E9yLhsaXEAxMTWIBrcQJW7-UoFPnhwn9sbmsO9HX9vd7O6DW9YxaupZWHm_HYY5yk40-bMUXYQFkRQNQr9sxLfQ0qziHyHr0RPsq1PqMpjvhd83ly1dpGhFIruG0vrY5csf-i2ZG2MyoX4qo2IsvdwPcxSL_oInvHdqyV4A-Cs4FWy61LzAbR6UEDjLLUe7ACdrCeY3Y6p8uqxj9D9CqPE8ZL5FhAcf8wp64vy2uwX049wt7j6HwBq9b36wa1iOqa5UtsSSqxZRYAL07Lr4lieajBD2A',
-  onCreate,
-  title,
-  body,
-  btnTitle,
-}) => {
+const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
   const [errors, setErrors] = useState({ title: null, body: null });
+  const { authuserInfo, setAuthContextInfo } = useAuthContext()
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -36,8 +32,11 @@ const WriteBlogCard = ({
       setIsBlogCreateOngoing(true);
       const response = await createBlog(
         { title: blogTitle, body: blogBody },
-        accessToken
-      ); 
+        accessToken,
+        authuserInfo.refreshToken,
+        false,
+        {}
+      );
       if (response.status == 'SUCCESS') {
         setIsBlogCreateOngoing(false);
         const blogId = response.data.blogId;
@@ -45,12 +44,25 @@ const WriteBlogCard = ({
         onCreate(blogTitle, blogBody, blogId, authorId);
         setTitle('');
         setBody('');
+        console.log(response)
+        if(response.isNewToken){
+          console.log('hit')
+          
+          
+          setAuthContextInfo(
+            response.userObj.userId,
+            response.userObj.name,
+            response.userObj.role,
+            response.accessToken,
+            response.refreshToken,
+          );
+        }
         notify('Blog created', 'success');
-      }else {
+      } else {
         setIsBlogCreateOngoing(false);
-        setTitle('')
-        setBody('')
-        notify(`Blog not created,${response.message}`,'error')
+        setTitle('');
+        setBody('');
+        notify(`Blog not created,${response.message}`, 'error');
       }
     }
 
@@ -63,7 +75,6 @@ const WriteBlogCard = ({
       }
     } else {
       sendRequest();
-      
     }
   };
 

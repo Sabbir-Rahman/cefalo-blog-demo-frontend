@@ -1,8 +1,11 @@
 import Axios from './Api/axios';
+import { generateAccessTokenWithRefreshToken } from './auth';
 
-const getBlogs = async (page=1, limit=7) => {
+const getBlogs = async (page = 1, limit = 7) => {
   try {
-    const response = await Axios.get(`/api/v1/blogs?page=${page}&limit=${limit}`);
+    const response = await Axios.get(
+      `/api/v1/blogs?page=${page}&limit=${limit}`
+    );
     return { status: 'SUCCESS', blogs: response.data.data };
   } catch (err) {
     return {
@@ -14,9 +17,11 @@ const getBlogs = async (page=1, limit=7) => {
   }
 };
 
-const getAuthorBlogs = async (authorId,page=1, limit=7) => {
+const getAuthorBlogs = async (authorId, page = 1, limit = 7) => {
   try {
-    const response = await Axios.get(`/api/v1/blogs/author/${authorId}?page=${page}&limit=${limit}`);
+    const response = await Axios.get(
+      `/api/v1/blogs/author/${authorId}?page=${page}&limit=${limit}`
+    );
     return { status: 'SUCCESS', blogs: response.data.data };
   } catch (err) {
     return {
@@ -31,7 +36,7 @@ const getAuthorBlogs = async (authorId,page=1, limit=7) => {
 const getSingleBlogById = async (blogId) => {
   try {
     const response = await Axios.get(`/api/v1/blogs/${blogId}`);
-    
+
     return { status: 'SUCCESS', blog: response.data.data };
   } catch (err) {
     return {
@@ -43,7 +48,13 @@ const getSingleBlogById = async (blogId) => {
   }
 };
 
-const createBlog = async (inputData, accesstoken) => {
+const createBlog = async (
+  inputData,
+  accesstoken,
+  refreshToken,
+  isNewToken,
+  userObj
+) => {
   try {
     const config = {
       headers: {
@@ -51,29 +62,53 @@ const createBlog = async (inputData, accesstoken) => {
       },
     };
     const response = await Axios.post('/api/v1/blogs', inputData, config);
-    return { status: 'SUCCESS', message: response.data.message, data: response.data.data };
-  } catch (err) {
-    console.log(err)
     return {
-      status: 'ERROR',
-      message: err.response.data.message,
-      developerMessage: err.response.data.developerMessage,
+      status: 'SUCCESS',
+      message: response.data.message,
+      data: response.data.data,
+      isNewToken,
+      userObj,
     };
+  } catch (err) {
+    if (err.response.status == 401) {
+      const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
+      if (newToken.status == 'SUCCESS') {
+        console.log('============new token==================');
+        // callling the function again with new token
+        return await createBlog(
+          inputData,
+          newToken.accessToken,
+          refreshToken,
+          true,
+          newToken.userObj
+        );
+      }
+    } else {
+      return {
+        status: 'ERROR',
+        message: err.response.data.message,
+        developerMessage: err.response.data.developerMessage,
+      };
+    }
   }
 };
 
-const editBlog = async (blogId,inputData, accesstoken) => {
+const editBlog = async (blogId, inputData, accesstoken) => {
   try {
     const config = {
       headers: {
         Authorization: `Bearer ${accesstoken}`,
       },
     };
-    const response = await Axios.patch(`/api/v1/blogs/${blogId}`, inputData, config);
-    console.log(response)
+    const response = await Axios.patch(
+      `/api/v1/blogs/${blogId}`,
+      inputData,
+      config
+    );
+    console.log(response);
     return { status: 'SUCCESS', message: response.data.message };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
       status: 'ERROR',
       message: err.response.data.message,
@@ -82,22 +117,29 @@ const editBlog = async (blogId,inputData, accesstoken) => {
   }
 };
 
-const deleteBlog = async (blogId,accesstoken) => {
+const deleteBlog = async (blogId, accesstoken) => {
   try {
     const config = {
       headers: {
         Authorization: `Bearer ${accesstoken}`,
       },
     };
-    const response = await Axios.delete(`/api/v1/blogs/${blogId}`,config);
-    console.log(response)
-    return { status: 'SUCCESS'};
+    const response = await Axios.delete(`/api/v1/blogs/${blogId}`, config);
+    console.log(response);
+    return { status: 'SUCCESS' };
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return {
-      status: 'ERROR'
+      status: 'ERROR',
     };
   }
 };
 
-export { getBlogs, createBlog, getSingleBlogById, editBlog, deleteBlog, getAuthorBlogs };
+export {
+  getBlogs,
+  createBlog,
+  getSingleBlogById,
+  editBlog,
+  deleteBlog,
+  getAuthorBlogs,
+};
