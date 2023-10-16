@@ -1,5 +1,6 @@
 import Axios from './Api/axios';
 import { generateAccessTokenWithRefreshToken } from './auth';
+import { handleRefreshTokenResponse } from './utils';
 
 const getBlogs = async (page = 1, limit = 7) => {
   try {
@@ -74,21 +75,18 @@ const createBlog = async (
   } catch (err) {
     if (err.response.status == 401) {
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
-      if (newToken.status == 'SUCCESS') {
-        // callling the function again with new token
-        return await createBlog(
-          inputData,
-          newToken.accessToken,
-          refreshToken,
-          true,
-          newToken.userObj
-        );
-      }
-      return {
-        status: 'ERROR',
-        message: err.response.data.message,
-        developerMessage: err.response.data.developerMessage,
-      };
+      const refreshTokenReturn = await handleRefreshTokenResponse(
+        err,
+        newToken,
+        createBlog,
+        inputData,
+        newToken.accessToken,
+        refreshToken,
+        true,
+        newToken.userObj
+      );
+
+      return refreshTokenReturn;
     } else {
       return {
         status: 'ERROR',
@@ -131,22 +129,19 @@ const editBlog = async (
   } catch (err) {
     if (err.response.status == 401) {
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
-      if (newToken.status == 'SUCCESS') {
-        // callling the function again with new token
-        return await editBlog(
-          blogId,
-          inputData,
-          newToken.accessToken,
-          refreshToken,
-          true,
-          newToken.userObj
-        );
-      }
-      return {
-        status: 'ERROR',
-        message: err.response.data.message,
-        developerMessage: err.response.data.developerMessage,
-      };
+      const refreshTokenReturn = await handleRefreshTokenResponse(
+        err,
+        newToken,
+        editBlog,
+        blogId,
+        inputData,
+        newToken.accessToken,
+        refreshToken,
+        true,
+        newToken.userObj
+      );
+
+      return refreshTokenReturn;
     } else {
       return {
         status: 'ERROR',
@@ -181,21 +176,18 @@ const deleteBlog = async (
   } catch (err) {
     if (err.response.status == 401) {
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
-      if (newToken.status == 'SUCCESS') {
-        // callling the function again with new token
-        return await deleteBlog(
-          blogId,
-          newToken.accessToken,
-          refreshToken,
-          true,
-          newToken.userObj
-        );
-      }
-      return {
-        status: 'ERROR',
-        message: err.response.data.message,
-        developerMessage: err.response.data.developerMessage,
-      };
+      const refreshTokenReturn = await handleRefreshTokenResponse(
+        err,
+        newToken,
+        deleteBlog,
+        blogId,
+        newToken.accessToken,
+        refreshToken,
+        true,
+        newToken.userObj
+      );
+
+      return refreshTokenReturn;
     } else {
       return {
         status: 'ERROR',
