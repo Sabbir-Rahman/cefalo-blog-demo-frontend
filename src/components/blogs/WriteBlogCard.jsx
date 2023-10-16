@@ -4,6 +4,7 @@ import { createBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
 import useAuthContext from '../../contexts/auth';
+import '../../css/blogs/writeBlog.css'
 
 const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
   const [blogTitle, setTitle] = useState(title);
@@ -77,7 +78,7 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
 
   return (
     <div className="flex justify-center mt-6">
-      <div className="w-full flex flex-col items-center bg-gray-300 bg-opacity-50 border border-gray-200 rounded-lg shadow md:flex-row sm:max-w-xl md:max-w-3xl lg:max-w-4xl xl:max-w-5xl hover:bg-gray-100 dark:border-gray-700 dark:bg-gray-800 dark:bg-opacity-50 dark:hover:bg-gray-700">
+      <div className="write-blog-bg">
         <div className="flex flex-col p-4 leading-normal w-full">
           <form className="space-y-6" action="#">
             <div>
@@ -89,7 +90,7 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
                 name="title"
                 value={blogTitle}
                 onChange={onChangeTitle}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="write-blog-title-input"
                 placeholder="This is title"
               />
               <p className="mb1fixed mt-1 text-sm text-red-500 dark:text-red-300">
@@ -106,7 +107,7 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
                 name="body"
                 value={blogBody}
                 onChange={onChangeBody}
-                className="pt-10 pb-6 mb-6 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
+                className="write-blog-textarea-input"
                 placeholder="This is the body of the blog"
               />
               <p className="mb1fixed pb-2 text-sm text-red-500 dark:text-red-300">

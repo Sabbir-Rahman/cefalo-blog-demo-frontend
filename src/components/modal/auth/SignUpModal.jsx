@@ -110,7 +110,7 @@ const SignUpModal = ({ open, onClose, goToLogin }) => {
               <div
                 className={`${
                   errorFromApi ? 'visible p-2.5' : 'invisible'
-                }  bg-red-200 border border-red-600 dark:border-red-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full dark:bg-red-600 dark:bg-opacity-30 dark:placeholder-gray-400 dark:text-white`}
+                } modal-api-error`}
               >
                 {!!errorFromApi && (
                   <h3 className="text-md font-bold">{errorFromApi.message}</h3>

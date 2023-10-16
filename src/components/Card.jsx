@@ -2,6 +2,7 @@
 import { Link } from 'react-router-dom';
 import useAuthContext from '../contexts/auth';
 import EditBlogComponent from './blogs/EditBlogComponent';
+import '../css/card.css'
 
 const Card = ({
   blogId,
@@ -20,7 +21,7 @@ const Card = ({
     <div className="flex justify-center mt-10">
       <div className="card-background">
         <img
-          className="object-cover p-4 w-full rounded-t-lg h-96 md:h-auto md:w-48 md:rounded-none md:rounded-l-lg"
+          className="card-img"
           src={img}
           alt=""
         />

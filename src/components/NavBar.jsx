@@ -8,12 +8,14 @@ import { UserNavbarProfile } from './UserNavbarProfile';
 import useAuthContext from '../contexts/auth';
 import { NavLink, Link } from 'react-router-dom';
 import WriteBlogModal from './modal/blogs/WriteBlogModal';
+import '../css/navbar.css'
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
   const [isAuthOngoing, setIsAuthOngoing] = useState(false);
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const [isSmallMenuOpen, setIsSmallMenuOpen] = useState(false);
 
   const onChangeToogle = (e) => {
     const lightModeStatus = e.currentTarget.checked;
@@ -24,27 +26,17 @@ const NavBar = () => {
 
   return (
     <div>
-      {isBlogCreateOngoing && (
-        <WriteBlogModal
-          open={isBlogCreateOngoing}
-          onClose={() => setIsBlogCreateOngoing(false)}
-          modalTitle="Create your own blog"
-          title=""
-          body=""
-          btnTitle="Create Blog"
-        />
-      )}
       {isAuthOngoing ? (
         <AuthModal
           open={isAuthOngoing}
           onClose={() => setIsAuthOngoing(false)}
         />
       ) : (
-        <nav className="bg-white border-2 border-gray-300 dark:bg-nav-back dark:border-none">
-          <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
+        <nav className="navbar-bg">
+          <div className="navbar-flex">
             <Link to="/" className="flex items-center">
               <FontAwesomeIcon icon={faBlog} style={{ color: '#35a29f' }} />
-              <span className="self-center text-2xl font-semibold whitespace-nowrap text-teal dark:text-mint">
+              <span className="navbar-logo-text">
                 &nbsp;Bloggie
               </span>
             </Link>
@@ -63,20 +55,10 @@ const NavBar = () => {
                   Change Theme
                 </span>
               </label>
-
               <button
-                onClick={() => setIsBlogCreateOngoing(true)}
-                type="button"
-                className="btn-primary invisible"
-              >
-                Write Blog
-              </button>
-              <button
-                data-collapse-toggle="navbar-cta"
+                onClick={()=> setIsSmallMenuOpen(!isSmallMenuOpen)}
                 type="button"
                 className="navbar-sm-btn"
-                aria-controls="navbar-cta"
-                aria-expanded="false"
               >
                 <span className="sr-only">Open main menu</span>
                 <svg
@@ -115,8 +97,8 @@ const NavBar = () => {
             </div>
 
             <div
-              className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
-              id="navbar-cta"
+              className={`items-center justify-between ${!isSmallMenuOpen && 'hidden'} w-full md:flex md:w-auto md:order-1`}
+              
             >
               <ul className="navbar-list">
                 <li>
