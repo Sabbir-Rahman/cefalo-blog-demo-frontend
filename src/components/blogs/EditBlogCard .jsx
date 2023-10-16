@@ -4,7 +4,7 @@ import { editBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
 import useAuthContext from '../../contexts/auth';
-import '../../css/blogs/editBlog.css'
+import '../../css/blogs/editBlog.css';
 
 const EditBlogCard = ({
   blogId,
@@ -27,6 +27,12 @@ const EditBlogCard = ({
     setBody(e.target.value);
   };
 
+  const signOut = () => {
+    localStorage.removeItem('user');
+    setAuthContextInfo(null, null, [], null, null);
+    // window.location.reload();
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
     setIsBlogEditOngoing(true);
@@ -45,7 +51,7 @@ const EditBlogCard = ({
         onClose();
         setTitle('');
         setBody('');
-        console.log(response)
+        console.log(response);
         if (response.isNewToken) {
           setAuthContextInfo(
             response.userObj.userId,
@@ -59,6 +65,7 @@ const EditBlogCard = ({
       } else {
         setIsBlogEditOngoing(false);
         onClose();
+        signOut()
         notify(response.message, 'error');
       }
     }
