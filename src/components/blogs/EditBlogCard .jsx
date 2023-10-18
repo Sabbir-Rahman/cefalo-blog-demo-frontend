@@ -30,7 +30,6 @@ const EditBlogCard = ({
   const signOut = () => {
     localStorage.removeItem('user');
     setAuthContextInfo(null, null, [], null, null);
-    // window.location.reload();
   };
 
   const onSubmitHandler = (e) => {
@@ -66,7 +65,7 @@ const EditBlogCard = ({
         setIsBlogEditOngoing(false);
         onClose();
         signOut()
-        notify(response.message, 'error');
+        notify('Blogs not edited, Something wrong with your credentials. You have been log out please login again.', 'error');
       }
     }
 

@@ -14,6 +14,10 @@ const DeleteBlogModal = ({
   onDelete,
 }) => {
   const { authuserInfo, setAuthContextInfo } = useAuthContext();
+  const signOut = () => {
+    localStorage.removeItem('user');
+    setAuthContextInfo(null, null, [], null, null);
+  };
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
@@ -40,8 +44,9 @@ const DeleteBlogModal = ({
       }
       notify('Blog deleted successfully', 'success');
     } else {
-      onClose();
-      notify(`Blogs not deleted.${response.message}`, 'error');
+      onClose()
+      signOut()
+      notify('Blogs not deleted, Something wrong with your credentials. You have been log out please login again.', 'error');
     }
   };
 
