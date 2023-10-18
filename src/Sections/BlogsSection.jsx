@@ -33,22 +33,22 @@ const BlogsSection = () => {
   }
 
   async function onDeleteBlog(blogId) {
-    const blogsCollection = blogs.filter(blog => blog.blogId != blogId);
-    setBlogs(blogsCollection)
+    const blogsCollection = blogs.filter((blog) => blog.blogId !== blogId);
+    setBlogs(blogsCollection);
   }
 
-  async function onEditBlog(blogId, title,body) {
-    const indexToEdit = blogs.findIndex(blog => blog.blogId === blogId)
+  async function onEditBlog(blogId, title, body) {
+    const indexToEdit = blogs.findIndex((blog) => blog.blogId === blogId);
 
-    if(indexToEdit != -1){
-      blogs[indexToEdit].title = title
-      blogs[indexToEdit].body = body
+    if (indexToEdit !== -1) {
+      blogs[indexToEdit].title = title;
+      blogs[indexToEdit].body = body;
     }
   }
 
   useEffect(() => {
     fetchBlogs();
-  }, [page]);
+  }, [page]); // COMMENT: investigate this! this one can be critical
 
   const infiniteScroll = async () => {
     try {
@@ -69,7 +69,7 @@ const BlogsSection = () => {
   }, []);
 
   function onCreateBlog(title, body, blogId, authorId) {
-    console.log(title, body);
+    console.log(title, body); // remove unnecessary logging
     const newBlog = {
       title,
       body,
@@ -83,7 +83,7 @@ const BlogsSection = () => {
 
   return (
     <>
-      {editBlogOngoing || deleteBlogOngoing ? (
+      {editBlogOngoing || deleteBlogOngoing ? ( // COMMENT: nested if else
         <div>
           {editBlogOngoing ? (
             <EditBlogModal
@@ -91,27 +91,25 @@ const BlogsSection = () => {
               onClose={() => setEditBlogOngoing(false)}
               modalTitle="Edit Blog"
               blogId={currentBlog.blogId}
-              title={currentBlog.title}
+              title={currentBlog.title} // COMMENT: try to avoid passing too many props, trade-off between stamp & data coupling is necessary
               body={currentBlog.body}
               btnTitle="Edit Blog"
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
               onEdit={onEditBlog}
             />
           ) : (
             <DeleteBlogModal
               open={deleteBlogOngoing}
               onClose={() => setDeleteBlogOngoing(false)}
-              modalTitle="Are you sure ? you want to delete the blog"
+              modalTitle="Are you sure ? you want to delete the blog" // Since this is not a reusable modal, this can be hardcoded in the cmponentn
               blogId={currentBlog.blogId}
-              
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
               onDelete={onDeleteBlog}
             />
           )}
         </div>
       ) : (
         <div>
-
           {authuserInfo.accessToken && (
             <WriteBlogCard
               onCreate={onCreateBlog}
@@ -125,6 +123,7 @@ const BlogsSection = () => {
           <div>
             {blogs
               .sort((a, b) => {
+                // COMMENT: is this necessary?
                 const timeA = new Date(a.time);
                 const timeB = new Date(b.time);
                 return timeB - timeA;
@@ -133,7 +132,7 @@ const BlogsSection = () => {
                 <Card
                   blogId={blog.blogId}
                   key={blog.time}
-                  title={blog.title}
+                  title={blog.title} // COMMENT: try to avoid passing too many props, trade-off between stamp & data coupling is necessary
                   authorName={blog.authorName}
                   authorId={blog.authorId}
                   time={blog.time}

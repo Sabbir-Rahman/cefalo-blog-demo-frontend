@@ -4,6 +4,7 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import EditBlogCard from '../../blogs/EditBlogCard ';
 
 const EditBlogModal = ({
+  // COMMENT: try to make reusable component from writing blog modal and edit blog modal
   open,
   onClose,
   modalTitle,
@@ -12,7 +13,7 @@ const EditBlogModal = ({
   body,
   btnTitle,
   accessToken,
-  onEdit
+  onEdit,
 }) => {
   return (
     <>

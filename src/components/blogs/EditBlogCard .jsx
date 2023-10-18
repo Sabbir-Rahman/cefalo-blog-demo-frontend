@@ -51,7 +51,7 @@ const EditBlogCard = ({
         setTitle('');
         setBody('');
         console.log(response);
-        if (response.isNewToken) {
+        if (response.isNewToken) { // COMMENT: isn't it tight coupling!! rethink about the feature
           setAuthContextInfo(
             response.userObj.userId,
             response.userObj.name,
