@@ -53,8 +53,6 @@ const createBlog = async (
   inputData,
   accessToken,
   refreshToken,
-  isNewToken,
-  userObj
 ) => {
   try {
     const config = {
@@ -67,13 +65,10 @@ const createBlog = async (
       status: 'SUCCESS',
       message: response.data.message,
       data: response.data.data,
-      isNewToken,
-      accessToken,
-      refreshToken,
-      userObj,
     };
   } catch (err) {
     if (err.response.status == 401) {
+
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
       const refreshTokenReturn = await handleRefreshTokenResponse(
         err,
@@ -82,8 +77,6 @@ const createBlog = async (
         inputData,
         newToken.accessToken,
         refreshToken,
-        true,
-        newToken.userObj
       );
 
       return refreshTokenReturn;
@@ -101,9 +94,7 @@ const editBlog = async (
   blogId,
   inputData,
   accessToken,
-  refreshToken,
-  isNewToken,
-  userObj
+  refreshToken
 ) => {
   try {
     const config = {
@@ -121,10 +112,6 @@ const editBlog = async (
       status: 'SUCCESS',
       message: response.data.message,
       data: response.data.data,
-      isNewToken,
-      accessToken,
-      refreshToken,
-      userObj,
     };
   } catch (err) {
     if (err.response.status == 401) {
@@ -137,8 +124,6 @@ const editBlog = async (
         inputData,
         newToken.accessToken,
         refreshToken,
-        true,
-        newToken.userObj
       );
 
       return refreshTokenReturn;
@@ -156,8 +141,6 @@ const deleteBlog = async (
   blogId,
   accessToken,
   refreshToken,
-  isNewToken,
-  userObj
 ) => {
   try {
     const config = {
@@ -168,10 +151,6 @@ const deleteBlog = async (
     await Axios.delete(`/api/v1/blogs/${blogId}`, config);
     return {
       status: 'SUCCESS',
-      isNewToken,
-      accessToken,
-      refreshToken,
-      userObj,
     };
   } catch (err) {
     if (err.response.status == 401) {
@@ -183,8 +162,6 @@ const deleteBlog = async (
         blogId,
         newToken.accessToken,
         refreshToken,
-        true,
-        newToken.userObj
       );
 
       return refreshTokenReturn;

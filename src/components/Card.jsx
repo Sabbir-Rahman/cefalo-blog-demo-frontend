@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
 import EditBlogComponent from './blogs/EditBlogComponent';
 import '../css/card.css';
 
@@ -15,14 +15,12 @@ const Card = ({
   onEdit,
   onDelete,
 }) => {
-  const { authuserInfo } = useAuthContext();
-
   return (
     <div className="flex justify-center mt-10">
       <div className="card-background">
         <img className="card-img" src={img} alt="" />
         <div className="flex flex-col p-4 leading-normal w-full">
-          {authuserInfo.userId == authorId && (
+          {authuserInfo.value.userId == authorId && (
             <EditBlogComponent onEdit={onEdit} onDelete={onDelete} /> // COMMENT: fix naming ! EditBlogComponent is confusing
           )}
           <h5 className="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">

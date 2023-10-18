@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import { deleteBlog } from '../../../services/blogs';
 import { notify } from '../../../utils/notify';
-import useAuthContext from '../../../contexts/auth';
+import { authuserInfo } from '../../../App';
 
 const DeleteBlogModal = ({
   open,
@@ -13,10 +13,15 @@ const DeleteBlogModal = ({
   accessToken,
   onDelete,
 }) => {
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
   const signOut = () => {
     localStorage.removeItem('user');
-    setAuthContextInfo(null, null, [], null, null);
+    authuserInfo.value = {
+      userId: null,
+      name: null,
+      accessToken: null,
+      refreshToken: null,
+      role: [],
+    }
   };
 
   const onSubmitHandler = async (e) => {
@@ -25,23 +30,12 @@ const DeleteBlogModal = ({
     const response = await deleteBlog(
       blogId,
       accessToken,
-      authuserInfo.refreshToken,
-      false,
-      {}
+      authuserInfo.value.refreshToken,
     );
     if (response.status == 'SUCCESS') {
       onDelete(blogId);
       onClose();
       console.log(response)
-      if (response.isNewToken) {
-        setAuthContextInfo(
-          response.userObj.userId,
-          response.userObj.name,
-          response.userObj.role,
-          response.accessToken,
-          response.refreshToken
-        );
-      }
       notify('Blog deleted successfully', 'success');
     } else {
       onClose()

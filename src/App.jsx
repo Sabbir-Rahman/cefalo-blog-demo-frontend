@@ -1,33 +1,28 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
 import NavBar from './components/NavBar';
 import { ThemeProvider } from './contexts/theme';
 import { ToastContainer } from 'react-toastify';
-import { AuthContextProvider } from './contexts/auth';
 import { Outlet } from 'react-router-dom';
+import { signal } from '@preact/signals-react';
+
+export const authuserInfo = signal({
+  userId: null,
+  name: null,
+  accessToken: null,
+  refreshToken: null,
+  role: [],
+});
 
 const App = () => {
-  const [authuserInfo, setAuthuserInfo] = useState({
-    userId: null,
-    name: null,
-    accessToken: null,
-    refreshToken: null,
-    role: [],
-  });
   const [currentTheme, setCurrentTheme] = useState('dark');
 
   // setting up the auth context from local storage
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem('user'));
-    if (authuserInfo.userId == null && user) {
-      setAuthContextInfo(
-        user.userId,
-        user.name,
-        user.role,
-        user.accessToken,
-        user.refreshToken,
-        
-      );
+    if (authuserInfo.value.userId == null && user) {
+      authuserInfo.value = user;
     }
 
     // set the theme
@@ -38,13 +33,13 @@ const App = () => {
   }, []);
 
   useEffect(() => {
-    if (authuserInfo.userId != null) {
+    if (authuserInfo.value.userId != null) {
       localStorage.setItem('user', JSON.stringify(authuserInfo));
     }
     if (currentTheme) {
       localStorage.setItem('theme', currentTheme);
     }
-  }, [authuserInfo, currentTheme]);
+  }, [authuserInfo.value, currentTheme]);
 
   const applyDarkTheme = () => {
     setCurrentTheme('dark');
@@ -53,49 +48,32 @@ const App = () => {
     setCurrentTheme('light');
   };
 
-  const setAuthContextInfo = (
-    userId,
-    name,
-    role,
-    accessToken,
-    refreshToken
-  ) => {
-    setAuthuserInfo({
-      userId,
-      name,
-      accessToken,
-      refreshToken,
-      role,
-    });
-  };
   useEffect(() => {
     document.querySelector('html').classList.remove('light', 'dark');
     document.querySelector('html').classList.add(currentTheme);
   }, [currentTheme]);
 
   return (
-    <AuthContextProvider value={{ authuserInfo, setAuthContextInfo }}>
-      <ThemeProvider value={{ currentTheme, applyDarkTheme, applyLightTheme }}>
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="dark"
-        />
-        <div className="min-h-screen bg-white dark:bg-navy">
-          <NavBar />
-          <Outlet />
-          {/* <SignUpModal />
+    <ThemeProvider value={{ currentTheme, applyDarkTheme, applyLightTheme }}>
+      <ToastContainer
+        position="top-right"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="dark"
+      />
+      <div className="min-h-screen bg-white dark:bg-navy">
+        <NavBar />
+        <Outlet />
+        {/* <SignUpModal />
           <BlogsSection /> */}
-        </div>
-      </ThemeProvider>
-    </AuthContextProvider>
+      </div>
+    </ThemeProvider>
   );
 };
 

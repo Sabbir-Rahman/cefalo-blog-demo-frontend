@@ -5,7 +5,7 @@ import useTheme from '../contexts/theme';
 import { useState } from 'react';
 import AuthModal from './modal/auth/AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
 import { NavLink, Link } from 'react-router-dom';
 import WriteBlogModal from './modal/blogs/WriteBlogModal';
 import '../css/navbar.css'
@@ -14,7 +14,6 @@ const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
   const [isAuthOngoing, setIsAuthOngoing] = useState(false);
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
   const [isSmallMenuOpen, setIsSmallMenuOpen] = useState(false);
 
   const onChangeToogle = (e) => {
@@ -81,10 +80,10 @@ const NavBar = () => {
                   />
                 </svg>
               </button>
-              {authuserInfo.userId ? (
+              {authuserInfo.value.userId ? (
                 <UserNavbarProfile
-                  username={authuserInfo.name}
-                  userId={authuserInfo.userId}
+                  username={authuserInfo.value.name}
+                  userId={authuserInfo.value.userId}
                 />
               ) : (
                 <button

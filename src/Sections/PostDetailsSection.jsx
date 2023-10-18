@@ -5,7 +5,7 @@ import '../css/blogs/blogDetails.css';
 import EditBlogComponent from '../components/blogs/EditBlogComponent';
 import EditBlogModal from '../components/modal/blogs/EditBlogModal';
 import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
 import { useNavigate } from "react-router-dom";
 
 const PostDetailsSection = () => {
@@ -13,8 +13,6 @@ const PostDetailsSection = () => {
   const [blog, setBlog] = useState({});
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
-  const { authuserInfo } = useAuthContext();
-
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -60,7 +58,7 @@ const PostDetailsSection = () => {
               title={blog.title}
               body={blog.body}
               btnTitle="Edit Blog"
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.value.accessToken}
               onEdit={onEditBlog}
             />
           ) : (
@@ -69,7 +67,7 @@ const PostDetailsSection = () => {
               onClose={() => setDeleteBlogOngoing(false)}
               modalTitle="Are you sure ? you want to delete the blog"
               blogId={blogId}
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.value.accessToken}
               onDelete={onDeleteBlog}
             />
           )}

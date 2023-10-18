@@ -3,7 +3,7 @@ import Card from '../components/Card';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAuthorBlogs } from '../services/blogs';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EditBlogModal from '../components/modal/blogs/EditBlogModal';
 import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
@@ -12,7 +12,6 @@ const AuthorBlogsSection = () => {
   const { authorId } = useParams();
 
   const [blogs, setBlogs] = useState([]);
-  const { authuserInfo } = useAuthContext();
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
@@ -72,7 +71,7 @@ const AuthorBlogsSection = () => {
               title={currentBlog.title}
               body={currentBlog.body}
               btnTitle="Edit Blog"
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.value.accessToken}
             />
           ) : (
             <DeleteBlogModal
@@ -80,7 +79,7 @@ const AuthorBlogsSection = () => {
               onClose={() => setDeleteBlogOngoing(false)}
               modalTitle="Are you sure ? you want to delete the blog"
               blogId={currentBlog.blogId}
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.value.accessToken}
             />
           )}
         </div>

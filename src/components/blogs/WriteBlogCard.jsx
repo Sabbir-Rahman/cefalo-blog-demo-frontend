@@ -3,15 +3,14 @@ import { useState } from 'react';
 import { createBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
-import useAuthContext from '../../contexts/auth';
-import '../../css/blogs/writeBlog.css'
+import { authuserInfo } from '../../App';
+import '../../css/blogs/writeBlog.css';
 
 const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
   const [isBlogCreateOngoing, setIsBlogCreateOngoing] = useState(false);
   const [errors, setErrors] = useState({ title: null, body: null });
-  const { authuserInfo, setAuthContextInfo } = useAuthContext()
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -28,7 +27,13 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
 
   const signOut = () => {
     localStorage.removeItem('user');
-    setAuthContextInfo(null, null, [], null, null);
+    authuserInfo.value = {
+      userId: null,
+      name: null,
+      accessToken: null,
+      refreshToken: null,
+      role: [],
+    };
   };
 
   const onSubmitHandler = (e) => {
@@ -39,9 +44,7 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
       const response = await createBlog(
         { title: blogTitle, body: blogBody },
         accessToken,
-        authuserInfo.refreshToken,
-        false,
-        {}
+        authuserInfo.value.refreshToken,
       );
       if (response.status == 'SUCCESS') {
         setIsBlogCreateOngoing(false);
@@ -50,23 +53,16 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
         onCreate(blogTitle, blogBody, blogId, authorId);
         setTitle('');
         setBody('');
-        console.log(response)
-        if(response.isNewToken){
-          setAuthContextInfo(
-            response.userObj.userId,
-            response.userObj.name,
-            response.userObj.role,
-            response.accessToken,
-            response.refreshToken,
-          );
-        }
         notify('Blog created', 'success');
       } else {
         setIsBlogCreateOngoing(false);
         setTitle('');
         setBody('');
-        signOut()
-      notify('Blogs not created, Something wrong with your credentials. You have been log out please login again.', 'error');
+        signOut();
+        notify(
+          'Blogs not created, Something wrong with your credentials. You have been log out please login again.',
+          'error'
+        );
       }
     }
 

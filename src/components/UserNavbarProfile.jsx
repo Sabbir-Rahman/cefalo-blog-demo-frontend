@@ -1,16 +1,22 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
+
 import '../css/navbar.css'
 
 export const UserNavbarProfile = ({ userId, username }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
 
   const signOut = () => {
     localStorage.removeItem('user');
-    setAuthContextInfo(null, null, [], null, null);
+    authuserInfo.value = {
+      userId: null,
+      name: null,
+      accessToken: null,
+      refreshToken: null,
+      role: [],
+    }
     // window.location.reload();
   };
 
@@ -45,7 +51,7 @@ export const UserNavbarProfile = ({ userId, username }) => {
         <ul className="py-2" aria-labelledby="user-menu-button">
           <li>
             <Link
-              to={`/blogs/author/${authuserInfo.userId}`}
+              to={`/blogs/author/${authuserInfo.value.userId}`}
               onClick={() => setIsOpen(false)}
               className="navbar-profile-link"
             >

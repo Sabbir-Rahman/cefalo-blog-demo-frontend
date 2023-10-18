@@ -1,7 +1,6 @@
-
 const AboutSection = () => {
   return (
-    <div className="text-2xl text-white">About</div>
+    <div>AboutSection</div>
   )
 }
 

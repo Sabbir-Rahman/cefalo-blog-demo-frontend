@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { editBlog } from '../../services/blogs';
 import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
-import useAuthContext from '../../contexts/auth';
 import '../../css/blogs/editBlog.css';
+import { authuserInfo } from '../../App';
 
 const EditBlogCard = ({
   blogId,
@@ -18,7 +18,6 @@ const EditBlogCard = ({
   const [blogTitle, setTitle] = useState(title);
   const [blogBody, setBody] = useState(body);
   const [isBlogEditOngoing, setIsBlogEditOngoing] = useState(false);
-  const { authuserInfo, setAuthContextInfo } = useAuthContext();
 
   const onChangeTitle = (e) => {
     setTitle(e.target.value);
@@ -29,7 +28,13 @@ const EditBlogCard = ({
 
   const signOut = () => {
     localStorage.removeItem('user');
-    setAuthContextInfo(null, null, [], null, null);
+    authuserInfo.value = {
+      userId: null,
+      name: null,
+      accessToken: null,
+      refreshToken: null,
+      role: [],
+    }
   };
 
   const onSubmitHandler = (e) => {
@@ -40,9 +45,7 @@ const EditBlogCard = ({
         blogId,
         { title: blogTitle, body: blogBody },
         accessToken,
-        authuserInfo.refreshToken,
-        false,
-        {}
+        authuserInfo.value.refreshToken,
       );
       if (response.status == 'SUCCESS') {
         setIsBlogEditOngoing(false);
@@ -50,16 +53,6 @@ const EditBlogCard = ({
         onClose();
         setTitle('');
         setBody('');
-        console.log(response);
-        if (response.isNewToken) { // COMMENT: isn't it tight coupling!! rethink about the feature
-          setAuthContextInfo(
-            response.userObj.userId,
-            response.userObj.name,
-            response.userObj.role,
-            response.accessToken,
-            response.refreshToken
-          );
-        }
         notify(response.message, 'success');
       } else {
         setIsBlogEditOngoing(false);

@@ -2,14 +2,13 @@ import Card from '../components/Card';
 import { useState, useEffect } from 'react';
 import { getBlogs } from '../services/blogs';
 import WriteBlogCard from '../components/blogs/WriteBlogCard';
-import useAuthContext from '../contexts/auth';
+import { authuserInfo } from '../App';
 import LoadingSpinner from '../components/LoadingSpinner';
 import EditBlogModal from '../components/modal/blogs/EditBlogModal';
 import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
-  const { authuserInfo } = useAuthContext();
   const [page, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
@@ -94,7 +93,7 @@ const BlogsSection = () => {
               title={currentBlog.title} // COMMENT: try to avoid passing too many props, trade-off between stamp & data coupling is necessary
               body={currentBlog.body}
               btnTitle="Edit Blog"
-              accessToken={authuserInfo.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
+              accessToken={authuserInfo.value.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
               onEdit={onEditBlog}
             />
           ) : (
@@ -103,17 +102,17 @@ const BlogsSection = () => {
               onClose={() => setDeleteBlogOngoing(false)}
               modalTitle="Are you sure ? you want to delete the blog" // Since this is not a reusable modal, this can be hardcoded in the cmponentn
               blogId={currentBlog.blogId}
-              accessToken={authuserInfo.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
+              accessToken={authuserInfo.value.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
               onDelete={onDeleteBlog}
             />
           )}
         </div>
       ) : (
         <div>
-          {authuserInfo.accessToken && (
+          {authuserInfo.value.accessToken && (
             <WriteBlogCard
               onCreate={onCreateBlog}
-              accessToken={authuserInfo.accessToken}
+              accessToken={authuserInfo.value.accessToken}
               title=""
               body=""
               btnTitle="Create Blog"

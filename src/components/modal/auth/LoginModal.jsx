@@ -8,7 +8,7 @@ import { login } from '../../../services/auth';
 import { useState } from 'react';
 import LoadingPrimaryButton from '../../LoadingPrimaryButton';
 import 'react-toastify/dist/ReactToastify.css';
-import useAuthContext from '../../../contexts/auth';
+import { authuserInfo } from '../../../App';
 import '../../../css/modal.css';
 import ModalInput from '../ModalInput';
 import { notify } from '../../../utils/notify';
@@ -22,7 +22,6 @@ const schema = Joi.object({
 });
 
 const LoginModal = ({ open, onClose, goToSignUp }) => {
-  const { setAuthContextInfo } = useAuthContext();
 
   const {
     register,
@@ -65,13 +64,13 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                     setErrorFromApi(false);
                     notify(response.message, 'success');
 
-                    setAuthContextInfo(
-                      response.userObj.userId,
-                      response.userObj.name,
-                      response.userObj.role,
-                      response.accessToken,
-                      response.refreshToken
-                    );
+                    authuserInfo.value = {
+                      userId: response.userObj.userId,
+                      name: response.userObj.name,
+                      accessToken: response.accessToken,
+                      refreshToken: response.refreshToken,
+                      role: response.userObj.role,
+                    }
 
                     onClose();
                   }

@@ -1,5 +1,6 @@
 import Axios from './Api/axios';
 import { verifyJwt } from '../utils/jwt';
+import { authuserInfo } from '../App';
 
 const login = async (inputData) => {
   try {
@@ -22,7 +23,8 @@ const login = async (inputData) => {
 };
 
 const generateAccessTokenWithRefreshToken = async (refreshToken) => {
-  console.log(refreshToken);
+  let accessToken;
+  let userObj;
   try {
     const config = {
       headers: {
@@ -34,12 +36,21 @@ const generateAccessTokenWithRefreshToken = async (refreshToken) => {
       {},
       config
     );
-    const accessToken = response.data.data.accessToken;
-    const userObj = verifyJwt(accessToken).decoded;
+    accessToken = response.data.data.accessToken;
+    userObj = verifyJwt(accessToken).decoded;
+  
+    // reassign the access token
+    authuserInfo.value = {
+      userId: userObj.userId,
+      name: userObj.name,
+      accessToken: accessToken,
+      refreshToken: userObj.refreshToken,
+      role: userObj.role,
+    };
+
     return {
       status: 'SUCCESS',
-      accessToken: accessToken,
-      userObj: userObj
+      accessToken
     };
   } catch (err) {
     return {
