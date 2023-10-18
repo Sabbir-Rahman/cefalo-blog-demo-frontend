@@ -26,6 +26,11 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
     }
   };
 
+  const signOut = () => {
+    localStorage.removeItem('user');
+    setAuthContextInfo(null, null, [], null, null);
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -60,7 +65,8 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
         setIsBlogCreateOngoing(false);
         setTitle('');
         setBody('');
-        notify(`Blog not created,${response.message}`, 'error');
+        signOut()
+      notify('Blogs not created, Something wrong with your credentials. You have been log out please login again.', 'error');
       }
     }
 
