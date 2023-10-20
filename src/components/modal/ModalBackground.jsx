@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
 
-const ModalBackground = ({ open, onClose, children }) => {
+const ModalBackground = ({ open, onClose, modalTitle ,children }) => {
   return (
     <>
       <div
@@ -21,7 +21,7 @@ const ModalBackground = ({ open, onClose, children }) => {
             </button>
             <div className="px-6 py-6 lg:px-8">
               <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-                Edit Blog
+                {modalTitle}
               </h3>
               {children}
             </div>

@@ -86,6 +86,7 @@ const BlogsSection = () => {
         <ModalBackground
           open={editBlogOngoing}
           onClose={() => setEditBlogOngoing(false)}
+          modalTitle="Edit blog"
         >
           <EditBlogModal
             blog={currentBlog}
@@ -96,14 +97,17 @@ const BlogsSection = () => {
         </ModalBackground>
       )}
       {deleteBlogOngoing && (
-        <DeleteBlogModal
+        <ModalBackground
           open={deleteBlogOngoing}
           onClose={() => setDeleteBlogOngoing(false)}
-          modalTitle="Are you sure ? you want to delete the blog" // Since this is not a reusable modal, this can be hardcoded in the cmponentn
-          blogId={currentBlog.blogId}
-          accessToken={authuserInfo.value.accessToken} // COMMENT: is it necessary to pass, can't we use context in EditBlogModal?
-          onDelete={onDeleteBlog}
-        />
+          modalTitle="Are you sure? You want to delete the blog"
+        >
+          <DeleteBlogModal
+            onClose={() => setDeleteBlogOngoing(false)}
+            blogId={currentBlog.blogId}
+            onDelete={onDeleteBlog}
+          />
+        </ModalBackground>
       )}
 
       {authuserInfo.value.accessToken && (

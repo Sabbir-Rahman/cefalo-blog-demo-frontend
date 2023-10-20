@@ -5,6 +5,7 @@ import LoadingPrimaryButton from '../../LoadingPrimaryButton';
 import { notify } from '../../../utils/notify';
 import '../../../css/blogs/editBlog.css';
 import { authuserInfo } from '../../../App';
+import { signOut } from '../../../utils/auth';
 
 const EditBlogModal = ({ blog, btnTitle, onClose, onEdit }) => {
   const [blogTitle, setTitle] = useState(blog.title);
@@ -16,17 +17,6 @@ const EditBlogModal = ({ blog, btnTitle, onClose, onEdit }) => {
   };
   const onChangeBody = (e) => {
     setBody(e.target.value);
-  };
-
-  const signOut = () => {
-    localStorage.removeItem('user');
-    authuserInfo.value = {
-      userId: null,
-      name: null,
-      accessToken: null,
-      refreshToken: null,
-      role: [],
-    };
   };
 
   const onSubmitHandler = (e) => {

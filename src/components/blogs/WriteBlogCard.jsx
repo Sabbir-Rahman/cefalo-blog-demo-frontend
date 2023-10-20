@@ -5,6 +5,7 @@ import LoadingPrimaryButton from '../LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
 import { authuserInfo } from '../../App';
 import '../../css/blogs/writeBlog.css';
+import { signOut } from '../../utils/auth';
 
 const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
   const [blogTitle, setTitle] = useState(title);
@@ -23,17 +24,6 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
     if (e.target.value != '') {
       setErrors({ ...errors, body: null });
     }
-  };
-
-  const signOut = () => {
-    localStorage.removeItem('user');
-    authuserInfo.value = {
-      userId: null,
-      name: null,
-      accessToken: null,
-      refreshToken: null,
-      role: [],
-    };
   };
 
   const onSubmitHandler = (e) => {

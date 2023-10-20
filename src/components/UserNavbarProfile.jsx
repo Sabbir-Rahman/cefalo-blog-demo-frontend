@@ -2,23 +2,11 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { authuserInfo } from '../App';
-
 import '../css/navbar.css'
+import { signOut } from '../utils/auth';
 
 export const UserNavbarProfile = ({ userId, username }) => {
   const [isOpen, setIsOpen] = useState(false);
-
-  const signOut = () => {
-    localStorage.removeItem('user');
-    authuserInfo.value = {
-      userId: null,
-      name: null,
-      accessToken: null,
-      refreshToken: null,
-      role: [],
-    }
-    // window.location.reload();
-  };
 
   return (
     <div className="flex justify-end items-center mx-6">
