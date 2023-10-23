@@ -8,6 +8,10 @@ import AboutSection from './Sections/AboutSection.jsx'
 import ContactSection from './Sections/ContactSection.jsx'
 import PostDetailsSection from './Sections/PostDetailsSection.jsx'
 import AuthorBlogsSection from './Sections/AuthorBlogsSection.jsx'
+import { createRoot } from 'react-dom/client'
+
+const container = document.getElementById("root")
+const root = createRoot(container)
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -21,7 +25,7 @@ const router = createBrowserRouter(
   )
 )
 
-ReactDOM.createRoot(document.getElementById('root')).render(
+root.render(
   <React.StrictMode>
     <RouterProvider router={router}/>
   </React.StrictMode>,
