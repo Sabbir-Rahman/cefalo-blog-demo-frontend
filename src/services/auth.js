@@ -1,5 +1,7 @@
 import Axios from './Api/axios';
 import { verifyJwt } from '../utils/jwt';
+import { useGlobalState } from '../utils/test';
+
 
 const login = async (inputData) => {
   try {
@@ -22,7 +24,6 @@ const login = async (inputData) => {
 };
 
 const generateAccessTokenWithRefreshToken = async (refreshToken) => {
-  console.log(refreshToken);
   try {
     const config = {
       headers: {

@@ -6,16 +6,21 @@ import EditBlogComponent from '../components/blogs/EditBlogComponent';
 import EditBlogModal from '../components/modal/blogs/EditBlogModal';
 import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
 import useAuthContext from '../contexts/auth';
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from 'react-router-dom';
+import { PDFDownloadLink } from '@react-pdf/renderer';
+import MyDocument from './MyDocument';
+import { useGlobalState } from '../utils/test';
 
 const PostDetailsSection = () => {
+  
+
   const { blogId } = useParams();
   const [blog, setBlog] = useState({});
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const { authuserInfo } = useAuthContext();
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function getBlog() {
@@ -31,12 +36,12 @@ const PostDetailsSection = () => {
 
   async function onDeleteBlog(blogId) {
     setBlog({});
-    navigate(-1)
+    navigate(-1);
   }
 
   async function onEditBlog(blogId, title, body) {
-    blog.title = title
-    blog.body = body
+    blog.title = title;
+    blog.body = body;
   }
   const onEdit = () => {
     setEditBlogOngoing(true);
@@ -44,7 +49,6 @@ const PostDetailsSection = () => {
 
   const onDelete = () => {
     setDeleteBlogOngoing(true);
-    
   };
 
   return (
@@ -78,8 +82,24 @@ const PostDetailsSection = () => {
         <div className="w-full flex justify-center mt-10">
           <div className="blog-details-cover">
             <div className="dark:text-white mr-auto">
+              <button
+                onClick={() => {
+                  dispatch({ type: 'increment' });
+                }}
+              >
+                Test
+              </button>
+              <p>{state.count}</p>
               <EditBlogComponent onDelete={onDelete} onEdit={onEdit} />
-
+              <PDFDownloadLink document={<MyDocument />} fileName="Delivery">
+                {({ loading }) =>
+                  loading ? (
+                    <button>Loading...</button>
+                  ) : (
+                    <button>Download PDF</button>
+                  )
+                }
+              </PDFDownloadLink>
               <div className="dark:text-white text-2xl">{blog.title}</div>
               <div className="dark:text-white font-medium">
                 {blog.authorName} | {blog.authorEmail}
@@ -94,4 +114,4 @@ const PostDetailsSection = () => {
   );
 };
 
-export default PostDetailsSection
+export default PostDetailsSection;
