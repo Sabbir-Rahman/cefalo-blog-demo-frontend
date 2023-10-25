@@ -7,7 +7,7 @@ import '../../../css/blogs/editBlog.css';
 import { authuserInfo } from '../../../App';
 import { signOut } from '../../../utils/auth';
 
-const EditBlogModal = ({ blog, btnTitle, onClose, onEdit }) => {
+const EditBlogModalBody = ({ blog, btnTitle, onClose, onEdit }) => {
   const [blogTitle, setTitle] = useState(blog.title);
   const [blogBody, setBody] = useState(blog.body);
   const [isBlogEditOngoing, setIsBlogEditOngoing] = useState(false);
@@ -95,4 +95,4 @@ const EditBlogModal = ({ blog, btnTitle, onClose, onEdit }) => {
   );
 };
 
-export default EditBlogModal;
+export default EditBlogModalBody;

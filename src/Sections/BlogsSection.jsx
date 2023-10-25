@@ -4,9 +4,9 @@ import { getBlogs } from '../services/blogs';
 import WriteBlogCard from '../components/blogs/WriteBlogCard';
 import { authuserInfo } from '../App';
 import LoadingSpinner from '../components/LoadingSpinner';
-import DeleteBlogModal from '../components/modal/blogs/DeleteBlogModal';
 import ModalBackground from '../components/modal/ModalBackground';
-import EditBlogModal from '../components/modal/blogs/EditBlogModal';
+import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
+import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -47,7 +47,7 @@ const BlogsSection = () => {
       }
     }
     fetchBlogs();
-  }, [page]); // COMMENT: investigate this! this one can be critical
+  }, [page]);
 
   const infiniteScroll = async () => {
     try {
@@ -68,7 +68,6 @@ const BlogsSection = () => {
   }, []);
 
   function onCreateBlog(title, body, blogId, authorId) {
-    console.log(title, body); // remove unnecessary logging
     const newBlog = {
       title,
       body,
@@ -88,7 +87,7 @@ const BlogsSection = () => {
           onClose={() => setEditBlogOngoing(false)}
           modalTitle="Edit blog"
         >
-          <EditBlogModal
+          <EditBlogModalBody
             blog={currentBlog}
             btnTitle="Edit Blog"
             onClose={() => setEditBlogOngoing(false)}
@@ -102,7 +101,7 @@ const BlogsSection = () => {
           onClose={() => setDeleteBlogOngoing(false)}
           modalTitle="Are you sure? You want to delete the blog"
         >
-          <DeleteBlogModal
+          <DeleteBlogModalBody
             onClose={() => setDeleteBlogOngoing(false)}
             blogId={currentBlog.blogId}
             onDelete={onDeleteBlog}

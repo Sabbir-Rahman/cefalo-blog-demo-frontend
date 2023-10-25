@@ -4,7 +4,7 @@ import { notify } from '../../../utils/notify';
 import { authuserInfo } from '../../../App';
 import { signOut } from '../../../utils/auth';
 
-const DeleteBlogModal = ({
+const DeleteBlogModalBody = ({
   onClose,
   blogId,
   onDelete,
@@ -52,4 +52,4 @@ const DeleteBlogModal = ({
   );
 };
 
-export default DeleteBlogModal;
+export default DeleteBlogModalBody;
