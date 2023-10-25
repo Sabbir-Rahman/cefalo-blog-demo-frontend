@@ -86,7 +86,6 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
                 placeholder="This is title"
               />
               <p className="mb1fixed mt-1 text-sm text-red-500 dark:text-red-300">
-                {console.log(errors.title?.message)}
                 {errors.title && errors.title.message}
               </p>
             </div>

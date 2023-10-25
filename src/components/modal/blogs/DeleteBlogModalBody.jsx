@@ -21,7 +21,6 @@ const DeleteBlogModalBody = ({
     if (response.status == 'SUCCESS') {
       onDelete(blogId);
       onClose();
-      console.log(response);
       notify('Blog deleted successfully', 'success');
     } else {
       onClose();

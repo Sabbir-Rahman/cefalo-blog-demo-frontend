@@ -81,7 +81,6 @@ const PostDetailsSection = () => {
         <div className="blog-details-cover">
           <div id="card-body" className="w-full">
             <div id="action-icon" className="flex">
-              {console.log(authuserInfo, blog)}
               {authuserInfo.value.userId === blog.authorId && (
                 <BlogActionsComponent onDelete={onDelete} onEdit={onEdit} />
               )}
