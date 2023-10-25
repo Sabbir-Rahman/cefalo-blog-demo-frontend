@@ -2,7 +2,7 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPenToSquare, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-const EditBlogComponent = ({ onEdit, onDelete }) => {
+const BlogActionsComponent = ({ onEdit, onDelete }) => {
   return (
     <div className="ml-auto">
       <button
@@ -23,4 +23,4 @@ const EditBlogComponent = ({ onEdit, onDelete }) => {
   );
 };
 
-export default EditBlogComponent;
+export default BlogActionsComponent;

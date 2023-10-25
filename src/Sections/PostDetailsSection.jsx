@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getSingleBlogById } from '../services/blogs';
 import '../css/blogs/blogDetails.css';
-import EditBlogComponent from '../components/blogs/EditBlogComponent';
+import BlogActionsComponent from '../components/blogs/BlogActionsComponent';
 import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
 import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
 import { authuserInfo } from '../App';
@@ -29,9 +29,9 @@ const PostDetailsSection = () => {
       }
     }
     getBlog();
-  }, []);
+  }, [blogId]);
 
-  async function onDeleteBlog(blogId) {
+  async function onDeleteBlog() {
     setBlog({});
     navigate(-1);
   }
@@ -83,7 +83,7 @@ const PostDetailsSection = () => {
             <div id="action-icon" className="flex">
               {console.log(authuserInfo, blog)}
               {authuserInfo.value.userId === blog.authorId && (
-                <EditBlogComponent onDelete={onDelete} onEdit={onEdit} />
+                <BlogActionsComponent onDelete={onDelete} onEdit={onEdit} />
               )}
 
               <a
