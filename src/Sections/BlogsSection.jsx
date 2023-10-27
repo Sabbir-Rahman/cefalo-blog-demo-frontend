@@ -13,24 +13,26 @@ import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [page, setCurrentPage] = useState(1);
-  const [limit, setCurrentLimit] = useState(7);
+  const [limit] = useState(7);
 
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
-  const [sortBy, setSortBy] = useState('');
-  const [sortOrder, setSortOrder] = useState('');
+
+  const [sortBy, setSortBy] = useState(blogSortedByEnum[0].sortBy);
+  const [sortOrder, setSortOrder] = useState(blogSortedByEnum[0].sortOrder);
+  const [searchText, setSearchText] = useState('');
 
   async function onSearchBlogs(searchString) {
-    const regexPattern = new RegExp(searchString, 'i');
-    const filteredBlogs = blogs.filter((blog) => regexPattern.test(blog.title));
-    setBlogs(filteredBlogs);
+    setSearchText(searchString);
+    setCurrentPage(1)
   }
 
   async function onSortBlogs(sortValueIndex) {
     setSortBy(blogSortedByEnum[sortValueIndex].sortBy);
     setSortOrder(blogSortedByEnum[sortValueIndex].sortOrder);
+    setCurrentPage(1)
   }
 
   async function onDeleteBlog(blogId) {
@@ -50,7 +52,16 @@ const BlogsSection = () => {
   useEffect(() => {
     async function fetchBlogs() {
       setLoading(true);
-      const response = await getBlogs(page, limit, sortBy, sortOrder);
+      console.log(
+        `page:${page}, limit${limit}, sortBy: ${sortBy}, sortOrder: ${sortOrder}, searchText: ${searchText}`
+      );
+      const response = await getBlogs(
+        page,
+        limit,
+        sortBy,
+        sortOrder,
+        searchText
+      );
       if (response.status == 'SUCCESS') {
         if (page > 1) {
           setBlogs((prev) => [...prev, ...response.blogs]);
@@ -64,7 +75,7 @@ const BlogsSection = () => {
       }
     }
     fetchBlogs();
-  }, [page, limit, sortBy, sortOrder]);
+  }, [page, limit, sortBy, sortOrder, searchText]);
 
   const infiniteScroll = async () => {
     try {

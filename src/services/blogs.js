@@ -2,10 +2,10 @@ import Axios from './Api/axios';
 import { generateAccessTokenWithRefreshToken } from './auth';
 import { handleRefreshTokenResponse } from './utils';
 
-const getBlogs = async (page = 1, limit = 7, sortBy, sortOrder) => {
+const getBlogs = async (page = 1, limit = 7, sortBy, sortOrder, searchText) => {
   try {
     const response = await Axios.get(
-      `/api/v1/blogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`
+      `/api/v1/blogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}&searchText=${searchText}`
     );
     return { status: 'SUCCESS', blogs: response.data.data };
   } catch (err) {
