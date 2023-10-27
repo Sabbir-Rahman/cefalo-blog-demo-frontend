@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { useState } from 'react';
-import LoadingPrimaryButton from '../../LoadingPrimaryButton';
+import LoadingPrimaryButton from '../../common/LoadingPrimaryButton';
 import { notify } from '../../../utils/notify';
 import 'react-toastify/dist/ReactToastify.css';
 import { authuserInfo } from '../../../App';
@@ -23,7 +23,6 @@ const schema = Joi.object({
 });
 
 const SignUpModal = ({ open, onClose, goToLogin }) => {
-  
   const {
     register,
     handleSubmit,
@@ -62,7 +61,7 @@ const SignUpModal = ({ open, onClose, goToLogin }) => {
                 } else {
                   setSignupOngoing(false);
                   setErrorFromApi(false);
-                  notify(response.message,'success');
+                  notify(response.message, 'success');
 
                   authuserInfo.value = {
                     userId: response.authorObj.authorId,
@@ -70,7 +69,7 @@ const SignUpModal = ({ open, onClose, goToLogin }) => {
                     accessToken: response.accessToken,
                     refreshToken: response.refreshToken,
                     role: ['author'],
-                  }
+                  };
 
                   onClose();
                 }

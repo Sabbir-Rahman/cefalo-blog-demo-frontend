@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-undef */
 import { useState, useEffect } from 'react';
-import NavBar from './components/NavBar';
+import NavBar from './Sections/NavBar';
 import { ThemeProvider } from './contexts/theme';
 import { ToastContainer } from 'react-toastify';
 import { Outlet } from 'react-router-dom';

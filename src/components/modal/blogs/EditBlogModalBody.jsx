@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { editBlog } from '../../../services/blogs';
-import LoadingPrimaryButton from '../../LoadingPrimaryButton';
+import LoadingPrimaryButton from '../../common/LoadingPrimaryButton';
 import { notify } from '../../../utils/notify';
 import '../../../css/blogs/editBlog.css';
 import { authuserInfo } from '../../../App';

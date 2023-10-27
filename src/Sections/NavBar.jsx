@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBlog } from '@fortawesome/free-solid-svg-icons';
 import useTheme from '../contexts/theme';
 import { useState } from 'react';
-import AuthModal from './modal/auth/AuthModal';
-import { UserNavbarProfile } from './UserNavbarProfile';
+import AuthModal from '../components/modal/auth/AuthModal';
+import { UserNavbarProfile } from '../components/UserNavbarProfile';
 import { authuserInfo } from '../App';
 import { NavLink, Link } from 'react-router-dom';
-import '../css/navbar.css'
+import '../css/navbar.css';
 
 const NavBar = () => {
   const { currentTheme, applyDarkTheme, applyLightTheme } = useTheme();
@@ -34,9 +34,7 @@ const NavBar = () => {
           <div className="navbar-flex">
             <Link to="/" className="flex items-center">
               <FontAwesomeIcon icon={faBlog} style={{ color: '#35a29f' }} />
-              <span className="navbar-logo-text">
-                &nbsp;Bloggie
-              </span>
+              <span className="navbar-logo-text">&nbsp;Bloggie</span>
             </Link>
 
             <div className="flex md:order-2">
@@ -54,7 +52,7 @@ const NavBar = () => {
                 </span>
               </label>
               <button
-                onClick={()=> setIsSmallMenuOpen(!isSmallMenuOpen)}
+                onClick={() => setIsSmallMenuOpen(!isSmallMenuOpen)}
                 type="button"
                 className="navbar-sm-btn"
               >
@@ -95,8 +93,9 @@ const NavBar = () => {
             </div>
 
             <div
-              className={`items-center justify-between ${!isSmallMenuOpen && 'hidden'} w-full md:flex md:w-auto md:order-1`}
-              
+              className={`items-center justify-between ${
+                !isSmallMenuOpen && 'hidden'
+              } w-full md:flex md:w-auto md:order-1`}
             >
               <ul className="navbar-list">
                 <li>

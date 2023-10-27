@@ -6,7 +6,7 @@ import { joiResolver } from '@hookform/resolvers/joi';
 import Joi from 'joi';
 import { login } from '../../../services/auth';
 import { useState } from 'react';
-import LoadingPrimaryButton from '../../LoadingPrimaryButton';
+import LoadingPrimaryButton from '../../common/LoadingPrimaryButton';
 import 'react-toastify/dist/ReactToastify.css';
 import { authuserInfo } from '../../../App';
 import '../../../css/modal.css';
@@ -22,7 +22,6 @@ const schema = Joi.object({
 });
 
 const LoginModal = ({ open, onClose, goToSignUp }) => {
-
   const {
     register,
     handleSubmit,
@@ -70,7 +69,7 @@ const LoginModal = ({ open, onClose, goToSignUp }) => {
                       accessToken: response.accessToken,
                       refreshToken: response.refreshToken,
                       role: response.userObj.role,
-                    }
+                    };
 
                     onClose();
                   }

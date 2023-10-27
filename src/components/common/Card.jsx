@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { Link } from 'react-router-dom';
-import { authuserInfo } from '../App';
-import BlogActionsComponent from './blogs/BlogActionsComponent';
-import '../css/card.css';
+import { authuserInfo } from '../../App';
+import BlogActionsComponent from '../blogs/BlogActionsComponent';
+import '../../css/card.css';
 
 const Card = ({ blog, img, onEdit, onDelete }) => {
   const AUTHOR_BLOGS_URL =

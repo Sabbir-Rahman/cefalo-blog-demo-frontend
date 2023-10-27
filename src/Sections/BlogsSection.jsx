@@ -1,9 +1,9 @@
-import Card from '../components/Card';
+import Card from '../components/common/Card';
 import { useState, useEffect } from 'react';
 import { getBlogs } from '../services/blogs';
 import WriteBlogCard from '../components/blogs/WriteBlogCard';
 import { authuserInfo } from '../App';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import ModalBackground from '../components/modal/ModalBackground';
 import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
 import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
@@ -26,13 +26,13 @@ const BlogsSection = () => {
 
   async function onSearchBlogs(searchString) {
     setSearchText(searchString);
-    setCurrentPage(1)
+    setCurrentPage(1);
   }
 
   async function onSortBlogs(sortValueIndex) {
     setSortBy(blogSortedByEnum[sortValueIndex].sortBy);
     setSortOrder(blogSortedByEnum[sortValueIndex].sortOrder);
-    setCurrentPage(1)
+    setCurrentPage(1);
   }
 
   async function onDeleteBlog(blogId) {

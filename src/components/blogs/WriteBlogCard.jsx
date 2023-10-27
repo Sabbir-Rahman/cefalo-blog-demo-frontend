@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 import { createBlog } from '../../services/blogs';
-import LoadingPrimaryButton from '../LoadingPrimaryButton';
+import LoadingPrimaryButton from '../common/LoadingPrimaryButton';
 import { notify } from '../../utils/notify';
 import { authuserInfo } from '../../App';
 import '../../css/blogs/writeBlog.css';
@@ -34,7 +34,7 @@ const WriteBlogCard = ({ accessToken, onCreate, title, body, btnTitle }) => {
       const response = await createBlog(
         { title: blogTitle, body: blogBody },
         accessToken,
-        authuserInfo.value.refreshToken,
+        authuserInfo.value.refreshToken
       );
       if (response.status == 'SUCCESS') {
         setIsBlogCreateOngoing(false);
