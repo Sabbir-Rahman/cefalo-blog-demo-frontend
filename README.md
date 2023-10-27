@@ -17,3 +17,11 @@ npm install
 npm run dev
 ```
 
+## Features
+1. Responsive design with dark and light theme persistent on user preference
+2. View blogs
+    - Any one can view blogs
+    - Pagination is done with infinity scrolling
+    - Blogs can be searched by text. If the text is included in any part of title or body, the blog will be shown
+    - Blogs can be sorted by latest created, oldest created, latest modified, last modified
+
