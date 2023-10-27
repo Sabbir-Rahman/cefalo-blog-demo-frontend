@@ -7,6 +7,8 @@ import LoadingSpinner from '../components/LoadingSpinner';
 import ModalBackground from '../components/modal/ModalBackground';
 import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
 import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
+import { blogSortedByEnum } from '../constatnts/enum';
+import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
 
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
@@ -15,6 +17,11 @@ const BlogsSection = () => {
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
+  const [sortBy, setSortBy] = useState(blogSortedByEnum[0])
+
+  async function onSearchBlogs(searchString) {
+    console.log(searchString)
+  }
 
   async function onDeleteBlog(blogId) {
     const blogsCollection = blogs.filter((blog) => blog.blogId !== blogId);
@@ -118,7 +125,7 @@ const BlogsSection = () => {
           btnTitle="Create Blog"
         />
       )}
-
+      <SearchAndSortDropDown sortBy={sortBy} sortArray={blogSortedByEnum} searchBlogs={onSearchBlogs}/>
       {blogs.map((blog) => (
         <Card
           blog={blog}

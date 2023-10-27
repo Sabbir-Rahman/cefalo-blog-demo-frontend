@@ -7,7 +7,6 @@ import AuthModal from './modal/auth/AuthModal';
 import { UserNavbarProfile } from './UserNavbarProfile';
 import { authuserInfo } from '../App';
 import { NavLink, Link } from 'react-router-dom';
-import WriteBlogModal from './modal/blogs/WriteBlogModal';
 import '../css/navbar.css'
 
 const NavBar = () => {
