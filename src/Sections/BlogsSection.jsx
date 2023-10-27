@@ -13,10 +13,14 @@ import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
 const BlogsSection = () => {
   const [blogs, setBlogs] = useState([]);
   const [page, setCurrentPage] = useState(1);
+  const [limit, setCurrentLimit] = useState(7);
+
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
+  const [sortBy, setSortBy] = useState('');
+  const [sortOrder, setSortOrder] = useState('');
 
   async function onSearchBlogs(searchString) {
     const regexPattern = new RegExp(searchString, 'i');
@@ -24,21 +28,9 @@ const BlogsSection = () => {
     setBlogs(filteredBlogs);
   }
 
-  async function onSortBlogs(sortValue) {
-    let sortedBlogs;
-    switch (sortValue) {
-      case 'Sort by Oldest':
-        sortedBlogs = [...blogs].sort((a, b) => {
-          return new Date(a.time) - new Date(b.time);
-        });
-        setBlogs(sortedBlogs)
-        break;
-      default:
-        sortedBlogs = [...blogs].sort((a, b) => {
-          return new Date(b.time) - new Date(a.time);
-        });
-        setBlogs(sortedBlogs)
-    }
+  async function onSortBlogs(sortValueIndex) {
+    setSortBy(blogSortedByEnum[sortValueIndex].sortBy);
+    setSortOrder(blogSortedByEnum[sortValueIndex].sortOrder);
   }
 
   async function onDeleteBlog(blogId) {
@@ -58,7 +50,7 @@ const BlogsSection = () => {
   useEffect(() => {
     async function fetchBlogs() {
       setLoading(true);
-      const response = await getBlogs(page);
+      const response = await getBlogs(page, limit, sortBy, sortOrder);
       if (response.status == 'SUCCESS') {
         if (page > 1) {
           setBlogs((prev) => [...prev, ...response.blogs]);
@@ -72,7 +64,7 @@ const BlogsSection = () => {
       }
     }
     fetchBlogs();
-  }, [page]);
+  }, [page, limit, sortBy, sortOrder]);
 
   const infiniteScroll = async () => {
     try {

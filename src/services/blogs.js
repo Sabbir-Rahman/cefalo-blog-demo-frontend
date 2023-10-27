@@ -2,10 +2,10 @@ import Axios from './Api/axios';
 import { generateAccessTokenWithRefreshToken } from './auth';
 import { handleRefreshTokenResponse } from './utils';
 
-const getBlogs = async (page = 1, limit = 7) => {
+const getBlogs = async (page = 1, limit = 7, sortBy, sortOrder) => {
   try {
     const response = await Axios.get(
-      `/api/v1/blogs?page=${page}&limit=${limit}`
+      `/api/v1/blogs?page=${page}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`
     );
     return { status: 'SUCCESS', blogs: response.data.data };
   } catch (err) {
@@ -49,11 +49,7 @@ const getSingleBlogById = async (blogId) => {
   }
 };
 
-const createBlog = async (
-  inputData,
-  accessToken,
-  refreshToken,
-) => {
+const createBlog = async (inputData, accessToken, refreshToken) => {
   try {
     const config = {
       headers: {
@@ -68,7 +64,6 @@ const createBlog = async (
     };
   } catch (err) {
     if (err.response.status == 401) {
-
       const newToken = await generateAccessTokenWithRefreshToken(refreshToken);
       const refreshTokenReturn = await handleRefreshTokenResponse(
         err,
@@ -76,7 +71,7 @@ const createBlog = async (
         createBlog,
         inputData,
         newToken.accessToken,
-        refreshToken,
+        refreshToken
       );
 
       return refreshTokenReturn;
@@ -90,12 +85,7 @@ const createBlog = async (
   }
 };
 
-const editBlog = async (
-  blogId,
-  inputData,
-  accessToken,
-  refreshToken
-) => {
+const editBlog = async (blogId, inputData, accessToken, refreshToken) => {
   try {
     const config = {
       headers: {
@@ -123,7 +113,7 @@ const editBlog = async (
         blogId,
         inputData,
         newToken.accessToken,
-        refreshToken,
+        refreshToken
       );
 
       return refreshTokenReturn;
@@ -137,11 +127,7 @@ const editBlog = async (
   }
 };
 
-const deleteBlog = async (
-  blogId,
-  accessToken,
-  refreshToken,
-) => {
+const deleteBlog = async (blogId, accessToken, refreshToken) => {
   try {
     const config = {
       headers: {
@@ -161,7 +147,7 @@ const deleteBlog = async (
         deleteBlog,
         blogId,
         newToken.accessToken,
-        refreshToken,
+        refreshToken
       );
 
       return refreshTokenReturn;
