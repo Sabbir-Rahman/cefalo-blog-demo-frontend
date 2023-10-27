@@ -1,1 +1,1 @@
-export const blogSortedByEnum = ['Sort by Latest Created', 'Sort by Latest Modified']
+export const blogSortedByEnum = ['Sort by Latest', 'Sort by Oldest']

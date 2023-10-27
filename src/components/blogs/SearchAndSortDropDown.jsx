@@ -1,9 +1,10 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react';
 
-const SearchAndSortDropDown = ({ sortBy, sortArray, searchBlogs }) => {
+const SearchAndSortDropDown = ({ sortBlogs, sortArray, searchBlogs }) => {
   const [isDropDownVisible, setIsDropDownVisible] = useState(false);
   const [searchValue, setSearchValue] = useState('');
+  const [sortByValue, setSortByValue] = useState(sortArray[0]);
 
   const changeSearchInput = (e) => {
     setSearchValue(e.target.value);
@@ -26,7 +27,7 @@ const SearchAndSortDropDown = ({ sortBy, sortArray, searchBlogs }) => {
               type="button"
               onClick={() => setIsDropDownVisible(!isDropDownVisible)}
             >
-              {sortBy}{' '}
+              {sortByValue}{' '}
               <svg
                 className="w-2.5 h-2.5 ml-2.5"
                 aria-hidden="true"
@@ -57,7 +58,6 @@ const SearchAndSortDropDown = ({ sortBy, sortArray, searchBlogs }) => {
                 className="absolute top-0 right-0 p-2.5 text-sm font-medium h-full text-white dark:text-navy bg-teal rounded-r-lg border border-teal dark:bg-mint "
                 onClick={() => {
                   searchBlogs(searchValue);
-                  setSearchValue('');
                 }}
               >
                 <svg
@@ -92,6 +92,11 @@ const SearchAndSortDropDown = ({ sortBy, sortArray, searchBlogs }) => {
                   <li key={sortByObj}>
                     <button
                       type="button"
+                      onClick={()=> {
+                        setSortByValue(sortByObj)
+                        sortBlogs(sortByObj)
+                        setIsDropDownVisible(false)
+                      }}
                       className="inline-flex w-full px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
                     >
                       {sortByObj}

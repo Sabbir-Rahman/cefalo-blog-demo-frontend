@@ -17,10 +17,28 @@ const BlogsSection = () => {
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
-  const [sortBy, setSortBy] = useState(blogSortedByEnum[0])
 
   async function onSearchBlogs(searchString) {
-    console.log(searchString)
+    const regexPattern = new RegExp(searchString, 'i');
+    const filteredBlogs = blogs.filter((blog) => regexPattern.test(blog.title));
+    setBlogs(filteredBlogs);
+  }
+
+  async function onSortBlogs(sortValue) {
+    let sortedBlogs;
+    switch (sortValue) {
+      case 'Sort by Oldest':
+        sortedBlogs = [...blogs].sort((a, b) => {
+          return new Date(a.time) - new Date(b.time);
+        });
+        setBlogs(sortedBlogs)
+        break;
+      default:
+        sortedBlogs = [...blogs].sort((a, b) => {
+          return new Date(b.time) - new Date(a.time);
+        });
+        setBlogs(sortedBlogs)
+    }
   }
 
   async function onDeleteBlog(blogId) {
@@ -125,7 +143,11 @@ const BlogsSection = () => {
           btnTitle="Create Blog"
         />
       )}
-      <SearchAndSortDropDown sortBy={sortBy} sortArray={blogSortedByEnum} searchBlogs={onSearchBlogs}/>
+      <SearchAndSortDropDown
+        sortArray={blogSortedByEnum}
+        searchBlogs={onSearchBlogs}
+        sortBlogs={onSortBlogs}
+      />
       {blogs.map((blog) => (
         <Card
           blog={blog}
