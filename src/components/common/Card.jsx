@@ -8,7 +8,7 @@ const Card = ({ blog, img, onEdit, onDelete }) => {
   const AUTHOR_BLOGS_URL =
     import.meta.env.VITE_REACT_AUTHOR_BLOGS_URL || '/blogs/author/';
   const BLOG_DETAILS_URL =
-    import.meta.env.VITE_REACT_BLOG_DETAILS_URL || '/blog/';
+    import.meta.env.VITE_REACT_BLOG_DETAILS_URL || '/blogs/';
 
   return (
     <div className="flex justify-center mt-10">

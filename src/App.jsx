@@ -70,8 +70,6 @@ const App = () => {
       <div className="min-h-screen bg-white dark:bg-navy">
         <NavBar />
         <Outlet />
-        {/* <SignUpModal />
-          <BlogsSection /> */}
       </div>
     </ThemeProvider>
   );

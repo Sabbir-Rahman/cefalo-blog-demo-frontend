@@ -45,5 +45,20 @@ npm run dev
 7. Pdf version of blog can be downloaded
 
 ## codeLocations
+1. The code starts with main.jsx `src/main.jsx` where all routers related info are declared
+2. App.jsx `src/App.jsx` is used for wrapping with context provider, using pop notification container, auth info with signal. Navbar need to be common for all the router so others are defined as outlet
+
+### Navbar
+1. Navbar is started from `src/Sections/NavBar.jsx`. Navbar has some functionality like routing through different pages. Showing small menu icon based on screen size. Change theme toggle button and authentication mechanism
+2. If authentication is on going navbar redirects to AuthModal `src/components/modal/auth/AuthModal.jsx`. Where login and signup is handled with LoginModal `src/components/modal/auth/LoginModal.jsx` and SignUp `src/components/modal/auth/SignUpModal.jsx`  Modal respectively
+3. If a user is authenticated. User navbar profile is shown with `src/components/UserNavbarProfile.jsx`
 
 
+### Blogs
+1. Blogs view is started with `src/Sections/BlogsSection.jsx`. If user is authenticated write blog mechanism is shown with WriteBlogCard `src/components/blogs/WriteBlogCard.jsx` 
+2. Search and Sort mechanism is shown with SearchAnd SortDropdown `src/components/blogs/SearchAndSortDropDown.jsx`
+3. Every blog is shown with Card componnet `src/components/common/Card.jsx`
+4. Edit and Delete open EditBlogModalBody `src/components/modal/blogs/EditBlogModalBody.jsx` and DeleteBlogModalBody `src/components/modal/blogs/DeleteBlogModalBody.jsx` respectively
+
+### Blog details
+1. Clicking on the read More button of a blog card redirect to a single blog details page `src/Sections/PostDetailsSection.jsx`
