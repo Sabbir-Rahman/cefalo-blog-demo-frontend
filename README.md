@@ -5,6 +5,7 @@
 
 - [Installation](#installation)
 - [Features](#features)
+- [codeLocations](#codeLocations)
 
 ## Installation
 
@@ -42,5 +43,7 @@ npm run dev
 6. Edit and Delete blogs
     - Only authorized person (own writed blog) can be edited or deleted
 7. Pdf version of blog can be downloaded
+
+## codeLocations
 
 

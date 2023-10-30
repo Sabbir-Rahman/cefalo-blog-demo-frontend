@@ -1,9 +1,9 @@
 /* eslint-disable react/prop-types */
-import Card from '../components/Card';
+import Card from '../components/common/Card';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getAuthorBlogs } from '../services/blogs';
-import LoadingSpinner from '../components/LoadingSpinner';
+import LoadingSpinner from '../components/common/LoadingSpinner';
 import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
 import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
 import ModalBackground from '../components/modal/ModalBackground';

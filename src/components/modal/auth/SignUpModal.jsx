@@ -33,7 +33,7 @@ const SignUpModal = ({ open, onClose, goToLogin }) => {
   return (
     <div
       className={`modal-basic ${
-        open ? 'visible bg-black/20 dark:bg-gray-600' : 'invisible'
+        open ? 'visible -mt-6 bg-black/20 dark:bg-gray-600' : 'invisible'
       }`}
     >
       <div className="relative w-full max-w-md max-h-full">
