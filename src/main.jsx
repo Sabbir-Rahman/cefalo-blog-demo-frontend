@@ -16,7 +16,7 @@ const root = createRoot(container)
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
-      <Route path='' element={<BlogsSection/>} />
+      <Route path='/' element={<BlogsSection/>} />
       <Route path='about' element={<AboutSection/>} />
       <Route path='contact' element={<ContactSection/>} />
       <Route path='blogs/:blogId' element={<PostDetailsSection/>} />

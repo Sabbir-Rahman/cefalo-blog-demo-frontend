@@ -9,8 +9,15 @@ import EditBlogModalBody from '../components/modal/blogs/EditBlogModalBody';
 import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
 import { blogSortedByEnum } from '../constatnts/enum';
 import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
+import { useSearchParams } from 'react-router-dom';
 
 const BlogsSection = () => {
+  const [searchParams] = useSearchParams();
+  const pageQuery = searchParams.get('page') || 1;
+  const limitQuery = searchParams.get('limit');
+  const searchQuery = searchParams.get('searchText');
+
+  console.log(pageQuery, limitQuery, searchQuery)
   const [blogs, setBlogs] = useState([]);
   const [page, setCurrentPage] = useState(1);
   const [limit] = useState(7);
