@@ -3,13 +3,10 @@ import { deleteBlog } from '../../../services/blogs';
 import { notify } from '../../../utils/notify';
 import { authuserInfo } from '../../../App';
 import { signOut } from '../../../utils/auth';
+import { useNavigate } from 'react-router-dom';
 
-const DeleteBlogModalBody = ({
-  onClose,
-  blogId,
-  onDelete,
-}) => {
-
+const DeleteBlogModalBody = ({ onClose, blogId, onDelete }) => {
+  const navigateTo = useNavigate();
   const onSubmitHandler = async (e) => {
     e.preventDefault();
 
@@ -22,6 +19,7 @@ const DeleteBlogModalBody = ({
       onDelete(blogId);
       onClose();
       notify('Blog deleted successfully', 'success');
+      navigateTo('/');
     } else {
       onClose();
       signOut();

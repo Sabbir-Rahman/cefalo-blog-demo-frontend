@@ -1,5 +1,5 @@
 import React from 'react'
-import ReactDOM from 'react-dom/client'
+
 import App from './App.jsx'
 import './index.css'
 import { Route, RouterProvider, createBrowserRouter, createRoutesFromElements } from 'react-router-dom'
@@ -19,7 +19,7 @@ const router = createBrowserRouter(
       <Route path='' element={<BlogsSection/>} />
       <Route path='about' element={<AboutSection/>} />
       <Route path='contact' element={<ContactSection/>} />
-      <Route path='blog/:blogId' element={<PostDetailsSection/>} />
+      <Route path='blogs/:blogId' element={<PostDetailsSection/>} />
       <Route path='blogs/author/:authorId' element={<AuthorBlogsSection/>} />
     </Route>
   )
