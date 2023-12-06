@@ -10,17 +10,20 @@ import DeleteBlogModalBody from '../components/modal/blogs/DeleteBlogModalBody';
 import { blogSortedByEnum } from '../constatnts/enum';
 import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
 import { useSearchParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const BlogsSection = () => {
+  const navigateTo = useNavigate();
   const [searchParams] = useSearchParams();
+  
   const pageQuery = searchParams.get('page') || 1;
-  const limitQuery = searchParams.get('limit');
-  const searchQuery = searchParams.get('searchText');
+  const limitQuery = searchParams.get('limit') || 7;
+  const searchQuery = searchParams.get('searchText') || '';
 
   console.log(pageQuery, limitQuery, searchQuery)
   const [blogs, setBlogs] = useState([]);
-  const [page, setCurrentPage] = useState(1);
-  const [limit] = useState(7);
+  const [page, setCurrentPage] = useState(pageQuery);
+  const [limit] = useState(limitQuery);
 
   const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
@@ -29,7 +32,7 @@ const BlogsSection = () => {
 
   const [sortBy, setSortBy] = useState(blogSortedByEnum[0].sortBy);
   const [sortOrder, setSortOrder] = useState(blogSortedByEnum[0].sortOrder);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState(searchQuery);
 
   async function onSearchBlogs(searchString) {
     setSearchText(searchString);
