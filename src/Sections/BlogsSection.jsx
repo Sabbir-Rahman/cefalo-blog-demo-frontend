@@ -1,5 +1,5 @@
 import Card from '../components/common/Card';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense } from 'react';
 import { getBlogs } from '../services/blogs';
 import WriteBlogCard from '../components/blogs/WriteBlogCard';
 import { authuserInfo } from '../App';
@@ -11,8 +11,11 @@ import { blogSortedByEnum } from '../constatnts/enum';
 import SearchAndSortDropDown from '../components/blogs/SearchAndSortDropDown';
 import { useSearchParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { notify } from '../utils/notify';
 
 const BlogsSection = () => {
+  const LazyCard = React.lazy(()=> import('../components/common/Card'))
+
   const navigateTo = useNavigate();
   const [searchParams] = useSearchParams();
   
@@ -25,7 +28,6 @@ const BlogsSection = () => {
   const [page, setCurrentPage] = useState(pageQuery);
   const [limit] = useState(limitQuery);
 
-  const [loading, setLoading] = useState(false);
   const [editBlogOngoing, setEditBlogOngoing] = useState(false);
   const [deleteBlogOngoing, setDeleteBlogOngoing] = useState(false);
   const [currentBlog, setCurrentBlog] = useState({});
@@ -62,7 +64,6 @@ const BlogsSection = () => {
 
   useEffect(() => {
     async function fetchBlogs() {
-      setLoading(true);
       console.log(
         `page:${page}, limit${limit}, sortBy: ${sortBy}, sortOrder: ${sortOrder}, searchText: ${searchText}`
       );
@@ -73,16 +74,15 @@ const BlogsSection = () => {
         sortOrder,
         searchText
       );
+
       if (response.status == 'SUCCESS') {
         if (page > 1) {
           setBlogs((prev) => [...prev, ...response.blogs]);
         } else {
           setBlogs([...response.blogs]);
         }
-
-        setLoading(false);
       } else {
-        setLoading(false);
+        notify('Something wrong','error')
       }
     }
     fetchBlogs();
@@ -162,8 +162,9 @@ const BlogsSection = () => {
         searchBlogs={onSearchBlogs}
         sortBlogs={onSortBlogs}
       />
-      {blogs.map((blog) => (
-        <Card
+      <Suspense fallback={<LoadingSpinner/>}>
+        {blogs.map((blog) => (
+        <LazyCard
           blog={blog}
           key={blog.blogId}
           onEdit={() => {
@@ -179,8 +180,8 @@ const BlogsSection = () => {
           )}/200`}
         />
       ))}
-
-      {loading && <LoadingSpinner />}
+      </Suspense>
+      
     </>
   );
 };
