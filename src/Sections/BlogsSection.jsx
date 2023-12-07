@@ -37,6 +37,7 @@ const BlogsSection = () => {
   async function onSearchBlogs(searchString) {
     setSearchText(searchString);
     setCurrentPage(1);
+    navigateTo(`?page=${page}&limit=${limit}&searchText=${searchString}`)
   }
 
   async function onSortBlogs(sortValueIndex) {
