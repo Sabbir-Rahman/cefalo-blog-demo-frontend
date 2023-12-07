@@ -13,7 +13,7 @@ const Card = ({ blog, img, onEdit, onDelete }) => {
   return (
     <div className="flex justify-center mt-10">
       <div className="card-background">
-        <img className="card-img" src={img} alt="" />
+        <img className="card-img" src={img} alt="" loading='lazy'/>
         <div className="flex flex-col p-4 leading-normal w-full">
           {authuserInfo.value.userId == blog.authorId && (
             <BlogActionsComponent onEdit={onEdit} onDelete={onDelete} />
